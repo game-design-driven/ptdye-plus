@@ -1,4 +1,4 @@
-package com.kikis.ptdyeplus;
+package com.kikis.ptdyeplus.util;
 
 import net.minecraft.MethodsReturnNonnullByDefault;
 import net.minecraft.core.BlockPos;

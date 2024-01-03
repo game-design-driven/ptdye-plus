@@ -25,7 +25,7 @@ modId="ptdyeplus" #mandatory
 # The version number of the mod - there's a few well known ${} variables useable here or just hardcode it
 # ${file.jarVersion} will substitute the value of the Implementation-Version as read from the mod's JAR file metadata
 # see the associated build.gradle script for how to populate this completely automatically during a build
-version="1.0.4+forge-1.19.2" #mandatory
+version="1.2.1+forge-1.19.2" #mandatory
 
  # A display name for the mod
 displayName="Ptdye Plus" #mandatory
@@ -34,7 +34,7 @@ displayName="Ptdye Plus" #mandatory
 #updateJSONURL="https://change.me.example.invalid/updates.json" #optional
 
 # A URL for the "homepage" for this mod, displayed in the mod UI
-displayURL="https://modrinth.com/modpack/create-prepare-to-dye" #optional
+displayURL="https://modrinth.com/mod/ptdye-plus" #optional
 
 # A file name (in the root of the mod JAR) containing a logo for display
 logoFile="icon.png" #optional
@@ -43,7 +43,7 @@ logoFile="icon.png" #optional
 #credits="" #optional
 
 # A text field displayed in the mod UI
-authors="Kikis <Jasper Alani> <github.com/jasperalani>" #optional
+authors="Kikis <github.com/jasperalani>" #optional
 
 # Display Test controls the display for your mod in the server connection screen
 # MATCH_VERSION means that your mod will cause a red X if the versions on client and server differ. This is the default behaviour and should be what you choose if you have server and client elements to your mod.
@@ -55,26 +55,8 @@ authors="Kikis <Jasper Alani> <github.com/jasperalani>" #optional
 
 # The description text for the mod (multi line!) (#mandatory)
 description="Additional content for the Create: Prepare to Dye modpack"
-
-# A dependency - use the . to indicate dependency for a specific modid. Dependencies are optional.
-[[dependencies.examplemod]] #optional
-    # the modid of the dependency
-    modId="forge" #mandatory
-    # Does this dependency have to exist - if not, ordering below must be specified
-    mandatory=true #mandatory
-    # The version range of the dependency
-    versionRange="[43,)" #mandatory
-    # An ordering relationship for the dependency - BEFORE or AFTER required if the relationship is not mandatory
-    ordering="NONE"
-    # Side this dependency is applied on - BOTH, CLIENT or SERVER
-    side="BOTH"
-    
-# Here's another dependency
-[[dependencies.examplemod]]
-    modId="minecraft"
-    mandatory=true
     
 # This version range declares a minimum of the current minecraft version up to but not including the next major version
-    versionRange="[1.19.2,1.20)"
-    ordering="NONE"
-    side="BOTH"
+versionRange="[1.19.2,1.20)"
+ordering="NONE"
+side="BOTH"

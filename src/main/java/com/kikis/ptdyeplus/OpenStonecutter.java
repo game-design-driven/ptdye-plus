@@ -1,5 +1,7 @@
 package com.kikis.ptdyeplus;
 
+import com.kikis.ptdyeplus.util.EntityContainerLevelAccess;
+import com.kikis.ptdyeplus.util.MinecraftMenuBuilder;
 import com.mojang.brigadier.Command;
 import com.mojang.brigadier.CommandDispatcher;
 import com.mojang.brigadier.context.CommandContext;
@@ -16,7 +18,7 @@ public class OpenStonecutter {
 
     @Contract(" -> new")
     private static @NotNull SimpleMenuProvider getMenuProvider() {
-        MinecraftMenuBuilder builder = (a,b,c)->new StonecutterMenu(a,b,c) {
+        MinecraftMenuBuilder builder = (a, b, c)->new StonecutterMenu(a,b,c) {
             @Override
             public boolean stillValid(@NotNull Player player) {
                 return true;
