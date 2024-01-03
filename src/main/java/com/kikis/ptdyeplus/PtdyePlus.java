@@ -1,6 +1,7 @@
 package com.kikis.ptdyeplus;
 
 import com.kikis.ptdyeplus.util.KeyBinding;
+import com.simibubi.create.content.contraptions.bearing.WindmillBearingBlock;
 import com.simibubi.create.foundation.gui.ScreenOpener;
 import com.simibubi.create.foundation.ponder.PonderRegistry;
 import com.simibubi.create.foundation.ponder.ui.PonderUI;
@@ -10,6 +11,7 @@ import net.minecraft.core.Registry;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.Entity;
+import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.HitResult;
@@ -47,7 +49,6 @@ public class PtdyePlus
         @SubscribeEvent
         public static void onKeyInput(InputEvent.Key event) {
             if(KeyBinding.TRY_PONDER_KEY.consumeClick()) {
-
                 Entity entity = minecraft.getCameraEntity();
                 assert entity != null;
                 HitResult block = entity.pick(20.0D, 0.0F, false);
@@ -66,7 +67,6 @@ public class PtdyePlus
                     } else {
                         ScreenOpener.transitionTo(PonderUI.of(id));
                     }
-
                 }
             }
         }
