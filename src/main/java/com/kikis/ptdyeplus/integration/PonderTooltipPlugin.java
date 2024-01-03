@@ -1,5 +1,6 @@
 package com.kikis.ptdyeplus.integration;
 
+import com.simibubi.create.AllBlocks;
 import com.simibubi.create.content.contraptions.actors.harvester.HarvesterBlock;
 import com.simibubi.create.content.contraptions.actors.plough.PloughBlock;
 import com.simibubi.create.content.contraptions.actors.psi.PortableStorageInterfaceBlock;
@@ -93,7 +94,6 @@ public class PonderTooltipPlugin implements IWailaPlugin {
         registration.registerBlockComponent(PonderTooltipComponentProvider.INSTANCE, ShaftBlock.class);
         registration.registerBlockComponent(PonderTooltipComponentProvider.INSTANCE, CogWheelBlock.class);
         registration.registerBlockComponent(PonderTooltipComponentProvider.INSTANCE, GearboxBlock.class);
-        registration.registerBlockComponent(PonderTooltipComponentProvider.INSTANCE, ClutchBlock.class);
         registration.registerBlockComponent(PonderTooltipComponentProvider.INSTANCE, GearshiftBlock.class);
         registration.registerBlockComponent(PonderTooltipComponentProvider.INSTANCE, ChainDriveBlock.class);
         registration.registerBlockComponent(PonderTooltipComponentProvider.INSTANCE, SequencedGearshiftBlock.class);
