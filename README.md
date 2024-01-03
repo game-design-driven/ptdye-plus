@@ -17,7 +17,8 @@ Key Features:
 
 - Command to access the stonecutter GUI: /openStonecutter
   - By using the "/openStonecutter" command, players can directly access the stonecutter's GUI, making it more convenient to craft devices.
-
+- Key bind to open ponder based on what block the player is looking at, set to B by default
+- Adds line to Jade tooltip on blocks that have a ponder indicating which button to press to open ponder
 
 While the mod currently focuses on this stonecutter enhancement, expect future updates for more features to enhance your gameplay. Stay tuned!
 
