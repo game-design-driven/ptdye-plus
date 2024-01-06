@@ -1,17 +1,22 @@
 package com.kikis.ptdyeplus;
 
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
+import com.kikis.ptdyeplus.kubejs.PtdyeJS;
+import com.kikis.ptdyeplus.kubejs.Utils;
 import com.kikis.ptdyeplus.util.KeyBinding;
-import com.simibubi.create.content.contraptions.bearing.WindmillBearingBlock;
 import com.simibubi.create.foundation.gui.ScreenOpener;
 import com.simibubi.create.foundation.ponder.PonderRegistry;
 import com.simibubi.create.foundation.ponder.ui.PonderUI;
+import net.minecraft.client.KeyMapping;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.Options;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Registry;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.Entity;
-import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.HitResult;
@@ -22,6 +27,13 @@ import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.event.RegisterCommandsEvent;
+import org.lwjgl.glfw.GLFW;
+
+import java.io.IOException;
+import java.lang.reflect.Field;
+import java.util.*;
+
+import net.minecraft.client.renderer.ItemBlockRenderTypes;
 
 @Mod("ptdyeplus")
 public class PtdyePlus
@@ -46,9 +58,13 @@ public class PtdyePlus
     @SuppressWarnings("deprecation")
     @Mod.EventBusSubscriber(modid = PtdyePlus.ID, value = Dist.CLIENT)
     public static class ClientForgeEvents {
+
         @SubscribeEvent
-        public static void onKeyInput(InputEvent.Key event) {
+        public static void onKeyInput(InputEvent.Key event) throws NoSuchElementException {
             if(KeyBinding.TRY_PONDER_KEY.consumeClick()) {
+
+                // minecraft.player.sendSystemMessage(Component.translatable());
+
                 Entity entity = minecraft.getCameraEntity();
                 assert entity != null;
                 HitResult block = entity.pick(20.0D, 0.0F, false);
@@ -68,6 +84,7 @@ public class PtdyePlus
                         ScreenOpener.transitionTo(PonderUI.of(id));
                     }
                 }
+
             }
         }
     }

@@ -1,6 +1,6 @@
 ### Ptdye Plus
 
-![Version](https://img.shields.io/badge/Version-1.2.3-purple)
+![Version](https://img.shields.io/badge/Version-1.2.4-purple)
 ![Minecraft](https://img.shields.io/badge/Minecraft-1.19.2-blue)
 ![Forge](https://img.shields.io/badge/Forge-43.3.0-darkblue)
 <br>

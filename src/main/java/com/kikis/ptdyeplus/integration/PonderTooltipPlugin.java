@@ -1,6 +1,5 @@
 package com.kikis.ptdyeplus.integration;
 
-import com.simibubi.create.AllBlocks;
 import com.simibubi.create.content.contraptions.actors.harvester.HarvesterBlock;
 import com.simibubi.create.content.contraptions.actors.plough.PloughBlock;
 import com.simibubi.create.content.contraptions.actors.psi.PortableStorageInterfaceBlock;
@@ -47,7 +46,6 @@ import com.simibubi.create.content.kinetics.simpleRelays.CogWheelBlock;
 import com.simibubi.create.content.kinetics.simpleRelays.ShaftBlock;
 import com.simibubi.create.content.kinetics.speedController.SpeedControllerBlock;
 import com.simibubi.create.content.kinetics.steamEngine.SteamEngineBlock;
-import com.simibubi.create.content.kinetics.transmission.ClutchBlock;
 import com.simibubi.create.content.kinetics.transmission.GearshiftBlock;
 import com.simibubi.create.content.kinetics.transmission.sequencer.SequencedGearshiftBlock;
 import com.simibubi.create.content.kinetics.turntable.TurntableBlock;
@@ -91,6 +89,7 @@ public class PonderTooltipPlugin implements IWailaPlugin {
     @Override
     public void registerClient(IWailaClientRegistration registration) {
 
+        // Create Ponders
         registration.registerBlockComponent(PonderTooltipComponentProvider.INSTANCE, ShaftBlock.class);
         registration.registerBlockComponent(PonderTooltipComponentProvider.INSTANCE, CogWheelBlock.class);
         registration.registerBlockComponent(PonderTooltipComponentProvider.INSTANCE, GearboxBlock.class);

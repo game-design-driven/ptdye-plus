@@ -4,7 +4,7 @@ plugins {
     id 'net.minecraftforge.gradle' version '5.1.+'
 }
 
-version = '1.2.2+forge-1.19.2'
+version = '1.2.4+forge-1.19.2'
 group = 'com.kikis.ptdyeplus'
 archivesBaseName = 'ptdyeplus'
 
@@ -109,6 +109,22 @@ repositories {
             includeGroup "curse.maven"
         }
     }
+
+    maven {
+        // Shedaniel's maven (Architectury API)
+        url = "https://maven.architectury.dev"
+        content {
+            includeGroup "dev.architectury"
+        }
+    }
+
+    maven {
+        // saps.dev Maven (KubeJS and Rhino)
+        url = "https://maven.saps.dev/minecraft"
+        content {
+            includeGroup "dev.latvian.mods"
+        }
+    }
 }
 
 dependencies {
@@ -122,6 +138,14 @@ dependencies {
 
     // Jade
     implementation fg.deobf("curse.maven:jade-324717:${jade_id}")
+
+    // KubeJS
+    implementation fg.deobf("dev.latvian.mods:kubejs-forge:${kubejs_version}")
+    implementation fg.deobf("dev.latvian.mods:rhino-forge:${rhino_version}")
+    implementation fg.deobf("dev.architectury:architectury-forge:${architectury_version}")
+
+    // Gson
+    implementation 'com.google.code.gson:gson:2.10.1'
 }
 
 jar {
