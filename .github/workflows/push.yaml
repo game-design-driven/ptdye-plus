@@ -39,7 +39,7 @@ jobs:
             Changes,docs:patch:Documentation and Localization,test:patch:Tests
             and testing related changes,mods:patch:Modlist related
             changes,ci:patch:Continuous Integration"
-          github_token: ${{ secrets.GH_TOKEN }}
+          github_token: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Create a GitHub release
         uses: ncipollo/release-action@v1
@@ -47,7 +47,7 @@ jobs:
           tag: ${{ steps.tag_version.outputs.new_tag }}
           name: Release ${{ steps.tag_version.outputs.new_tag }}
           body: ${{ steps.tag_version.outputs.changelog }}
-          token: ${{ secrets.GH_TOKEN }}
+          token: ${{ secrets.GITHUB_TOKEN }}
   build_and_release_on_modrinth_and_curseforge:
     needs: [tag_and_release, tests]
     strategy:
@@ -77,7 +77,7 @@ jobs:
             --repo ${{ github.repository_owner }}/${{ github.event.repository.name }} \
             --clobber
         env:
-          GH_TOKEN: ${{ secrets.GH_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - name: Publish to Modrinth
         if: matrix.platform == 'modrinth'
         uses: Kir-Antipov/mc-publish@v3.2
@@ -137,7 +137,7 @@ jobs:
       - name: Create Pull Request
         uses: peter-evans/create-pull-request@v5.0.2
         with:
-            token: ${{ secrets.GH_TOKEN }}
+            token: ${{ secrets.GITHUB_TOKEN }}
             commit-message: "Updating ${{ env.name }} to ${{ needs.tag_and_release.outputs.new_tag }}"
             title: "Updating ${{ env.name }} to ${{ needs.tag_and_release.outputs.new_tag }}"
             body: "# Updating ${{ env.name }} to ${{ needs.tag_and_release.outputs.new_tag }}. \n\n ${{ needs.tag_and_release.outputs.changelog }}"
