@@ -159,7 +159,7 @@ jobs:
         uses: peter-evans/create-pull-request@v6-rc
         with:
             token: ${{ secrets.GH_TOKEN }}
-            commit-message: "Updating ${{ env.name }} to ${{ needs.tag_and_release.outputs.new_tag }}"
+            commit-message: "mods: update ${{ env.name }} to ${{ needs.tag_and_release.outputs.new_tag }}"
             title: "Updating ${{ env.name }} to ${{ needs.tag_and_release.outputs.new_tag }}"
             body: "# Updating ${{ env.name }} to ${{ needs.tag_and_release.outputs.new_tag }}. \n\n ${{ needs.tag_and_release.outputs.changelog }}"
             add-paths: |
