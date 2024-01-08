@@ -119,7 +119,7 @@ jobs:
         uses: Kir-Antipov/mc-publish@v3.2
         with:
           curseforge-id: ${{ vars.CF_ID }}
-          curseforge-token: ${{ secrets.CF_API_TOKEN }}
+          token: ${{ secrets.CF_API_TOKEN }}
           loaders: ${{ env.loader}}
           game-versions: ${{ env.mc_version}}
           changelog: ${{ needs.tag_and_release.outputs.changelog }}
