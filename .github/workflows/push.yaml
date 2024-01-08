@@ -11,7 +11,7 @@ env:
   slug: "ptdye-plus"
   loader: "forge"
   mc_version: "1.19.2"
-  target_modpack_repo: "Yarden-zamir/create-prepare-to-dye"
+  target_modpack_repo: "Yarden-zamir/Create-Prepare-to-Dye"
 
 jobs:
   tests:
@@ -162,5 +162,5 @@ jobs:
                 "curseforge/${{ env.pack-file }}"
                 "curseforge/mods/*.toml"
             committer: Betsy <${{ github.actor }}@users.noreply.github.com>
-            push-to-fork: jasperalani/create-prepare-to-dye
+            push-to-fork: jasperalani/Create-Prepare-to-Dye
 
