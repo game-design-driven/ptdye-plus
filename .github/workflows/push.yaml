@@ -75,7 +75,7 @@ jobs:
       - name: Build args
         id: build_args
         run:
-          echo 'name=${{ needs.tag_and_release.outputs.new_tag }}-${{ env.slug }} [${{env.loader}}][${{ matrix.platform }}]' >> $GITHUB_OUTPUT
+          echo 'name=${{ needs.tag_and_release.outputs.new_tag }}-${{ env.slug }}[${{env.loader}}][${{ matrix.platform }}]' >> $GITHUB_OUTPUT
       - name: build
         run: |
             gradle wrapper
