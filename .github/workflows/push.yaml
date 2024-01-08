@@ -4,7 +4,7 @@ on:
   push:
     branches:
       - main
-      
+
 env:
   pack-file: "pack.toml"
   name: "Prepare to Dye Plus"
@@ -21,6 +21,12 @@ jobs:
       - name: validate JSON and YAML files
         uses: GrantBirki/json-yaml-validate@v2.4.0
   tag_and_release:
+    permissions: 
+        contents: write
+        pull-requests: write
+        actions: write
+        deployments: write
+        
     runs-on: ubuntu-latest
     outputs:
       new_tag: ${{ steps.tag_version.outputs.new_tag }}
