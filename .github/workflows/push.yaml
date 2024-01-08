@@ -47,6 +47,7 @@ jobs:
             changes,ci:patch:Continuous Integration"
           github_token:  ${{ secrets.GH_TOKEN }}
 
+          
       - name: Create a GitHub release
         uses: ncipollo/release-action@v1
         with:
