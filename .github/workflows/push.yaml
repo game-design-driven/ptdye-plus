@@ -26,7 +26,7 @@ jobs:
         pull-requests: write
         actions: write
         deployments: write
-        
+
     runs-on: ubuntu-latest
     outputs:
       new_tag: ${{ steps.tag_version.outputs.new_tag }}
@@ -77,7 +77,9 @@ jobs:
         run:
           echo 'name=${{ needs.tag_and_release.outputs.new_tag }}-${{ env.slug }} [${{env.loader}}][${{ matrix.platform }}]' >> $GITHUB_OUTPUT
       - name: build
-        run: gradle jar
+        run: |
+            gradle wrapper
+            ./gradle jar
       - name: Upload to GitHub Releases
         run: |
           gh release upload ${{ needs.tag_and_release.outputs.new_tag }} *.jar \
