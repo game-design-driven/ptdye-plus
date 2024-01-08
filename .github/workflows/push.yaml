@@ -86,11 +86,11 @@ jobs:
         with:
           path: ~/.gradle/caches
           key: ${{ runner.os }}-gradle-forge-${{ env.mc_version }}-${{ env.loader }}
-#      - name: Upload to GitHub Releases
-#        run: |
-#           gh release upload ${{ needs.tag_and_release.outputs.new_tag }} build/libs/*.jar \
-#             --repo ${{ github.repository_owner }}/${{ github.event.repository.name }} \
-#             --clobber
+      - name: Upload to GitHub Releases
+        run: |
+           gh release upload ${{ needs.tag_and_release.outputs.new_tag }} build/libs/*.jar \
+             --repo ${{ github.repository_owner }}/${{ github.event.repository.name }} \
+             --clobber
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - name: Publish to Modrinth
@@ -162,5 +162,5 @@ jobs:
                 "curseforge/${{ env.pack-file }}"
                 "curseforge/mods/*.toml"
             committer: Betsy <${{ github.actor }}@users.noreply.github.com>
-            push-to-fork: true
+            push-to-fork: jasperalani/create-prepare-to-dye
 
