@@ -7,6 +7,7 @@
 [![CurseForge](https://img.shields.io/badge/Find%20us%20on-CurseForge-orange)](https://legacy.curseforge.com/minecraft/mc-mods/ptdye-plus)
 [![CPTD](https://img.shields.io/badge/Create-Prepare%20to%20Dye-yellow)](https://modrinth.com/modpack/create-prepare-to-dye)
 
+1
 
 [![Discord](https://img.shields.io/badge/Discord-blue)](https://discord.gg/v8cZ83kTPY)
 
