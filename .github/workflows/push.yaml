@@ -93,7 +93,7 @@ jobs:
              --repo ${{ github.repository_owner }}/${{ github.event.repository.name }} \
              --clobber
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GH_TOKEN: ${{ secrets.GH_TOKEN }}
       - name: Publish to Modrinth
         if: matrix.platform == 'modrinth'
         uses: Kir-Antipov/mc-publish@v3.2
