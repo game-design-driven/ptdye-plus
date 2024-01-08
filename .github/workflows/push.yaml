@@ -129,7 +129,7 @@ jobs:
           version-type: release
           name: ${{ steps.build_args.outputs.name }}
   make_pr_for_modpackk:
-    needs: build_and_release_on_modrinth_and_curseforge
+    needs: [build_and_release_on_modrinth_and_curseforge, tag_and_release]
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
