@@ -26,7 +26,6 @@ jobs:
         pull-requests: write
         actions: write
         deployments: write
-
     runs-on: ubuntu-latest
     outputs:
       new_tag: ${{ steps.tag_version.outputs.new_tag }}
@@ -86,11 +85,11 @@ jobs:
         with:
           path: ~/.gradle/caches
           key: ${{ runner.os }}-gradle-forge-${{ env.mc_version }}-${{ env.loader }}
-      - name: Upload to GitHub Releases
-        run: |
-          gh release upload ${{ needs.tag_and_release.outputs.new_tag }} build/libs/*.jar \
-            --repo ${{ github.repository_owner }}/${{ github.event.repository.name }} \
-            --clobber
+    #   - name: Upload to GitHub Releases
+    #     run: |
+    #       gh release upload ${{ needs.tag_and_release.outputs.new_tag }} build/libs/*.jar \
+    #         --repo ${{ github.repository_owner }}/${{ github.event.repository.name }} \
+    #         --clobber
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - name: Publish to Modrinth
