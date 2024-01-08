@@ -11,6 +11,8 @@
 
 [![Discord](https://img.shields.io/badge/Discord-blue)](https://discord.gg/v8cZ83kTPY)
 
+1
+
 Introducing a Java mod designed exclusively for the [Create: Prepare to Dye](https://modrinth.com/modpack/create-prepare-to-dye) (CPTD) modpack!
 
 This mod includes code for features and bug fixes not achievable with KubeJS, the JavaScript framework used by the CPTD team.
