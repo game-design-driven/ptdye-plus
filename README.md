@@ -1,7 +1,6 @@
 ### Ptdye Plus
-
-![Version](https://img.shields.io/badge/Version-1.3.0-purple)
-![Minecraft](https://img.shields.io/badge/Minecraft-1.19.2-blue)
+![Version](https://img.shields.io/github/v/release/jasperalani/ptdye-plus)
+![Minecraft](https://img.shields.io/modrinth/game-versions/ikDjkgLu?label=Avilable+for)
 ![Forge](https://img.shields.io/badge/Forge-43.3.0-darkblue)
 <br>
 [![Modrinth](https://img.shields.io/badge/Find%20us%20on-Modrinth-green)](https://modrinth.com/mod/ptdye-plus)
