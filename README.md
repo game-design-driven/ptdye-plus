@@ -11,7 +11,7 @@
 
 [![Discord](https://img.shields.io/badge/Discord-blue)](https://discord.gg/v8cZ83kTPY)
 
-2
+3
 
 Introducing a Java mod designed exclusively for the [Create: Prepare to Dye](https://modrinth.com/modpack/create-prepare-to-dye) (CPTD) modpack!
 
