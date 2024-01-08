@@ -88,7 +88,7 @@ jobs:
           key: ${{ runner.os }}-gradle-forge-${{ env.mc_version }}-${{ env.loader }}
       - name: Upload to GitHub Releases
         run: |
-          gh release upload ${{ needs.tag_and_release.outputs.new_tag }} *.jar \
+          gh release upload ${{ needs.tag_and_release.outputs.new_tag }} build/libs/*.jar \
             --repo ${{ github.repository_owner }}/${{ github.event.repository.name }} \
             --clobber
         env:
@@ -102,7 +102,7 @@ jobs:
           loaders: ${{ env.loader}}
           game-versions: ${{ env.mc_version}}
           changelog: ${{ needs.tag_and_release.outputs.changelog }}
-          files: "*.jar"
+          files: "build/libs/*.jar"
           version: ${{ needs.tag_and_release.outputs.new_tag }}
           version-type: beta
           name: ${{ steps.build_args.outputs.name }}
@@ -123,7 +123,7 @@ jobs:
           loaders: ${{ env.loader}}
           game-versions: ${{ env.mc_version}}
           changelog: ${{ needs.tag_and_release.outputs.changelog }}
-          files: "*.jar"
+          files: "build/libs/*.jar"
           version: ${{ needs.tag_and_release.outputs.new_tag }}
           version-type: release
           name: ${{ steps.build_args.outputs.name }}
