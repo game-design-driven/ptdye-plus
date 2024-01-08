@@ -87,6 +87,7 @@ jobs:
           path: ~/.gradle/caches
           key: ${{ runner.os }}-gradle-forge-${{ env.mc_version }}-${{ env.loader }}
       - name: Upload to GitHub Releases
+        if: matrix.platform == 'modrinth'
         run: |
            gh release upload ${{ needs.tag_and_release.outputs.new_tag }} build/libs/*.jar \
              --repo ${{ github.repository_owner }}/${{ github.event.repository.name }} \
