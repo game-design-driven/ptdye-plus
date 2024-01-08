@@ -144,11 +144,11 @@ jobs:
           version: "linux"
       - name: Build Modpack modrinth
         run:
-          packwis modrinth update ${{ env.slug }}
+          packwiz modrinth update ${{ env.slug }}
       - name: Build Modpack curseforge
         run: |
           cd curseforge
-          packwis curseforge update ${{ env.slug }}
+          packwiz curseforge update ${{ env.slug }}
       - name: Create Pull Request
         uses: peter-evans/create-pull-request@v5.0.2
         with:
