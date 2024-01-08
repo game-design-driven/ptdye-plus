@@ -80,6 +80,7 @@ jobs:
         run: |
             gradle wrapper
             ./gradlew jar
+            ls build/libs
       - name: Cache Gradle dependencies for forge
         uses: actions/cache@v3.3.2
         with:
@@ -144,12 +145,10 @@ jobs:
       - name: Build Modpack modrinth
         run:
           packwis modrinth update ${{ env.slug }}
-          packwiz modrinth export --output "${{ steps.build_args.outputs.name }}.jar"
       - name: Build Modpack curseforge
         run: |
           cd curseforge
           packwis curseforge update ${{ env.slug }}
-          packwiz curseforge export --output "${{ steps.build_args.outputs.name }}.jar"
       - name: Create Pull Request
         uses: peter-evans/create-pull-request@v5.0.2
         with:
