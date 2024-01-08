@@ -57,6 +57,7 @@ jobs:
           token: ${{ secrets.GITHUB_TOKEN }}
   build_and_release_on_modrinth_and_curseforge:
     needs: [tag_and_release, tests]
+    name: Build and release ${{ matrix.platform }}
     strategy:
       matrix:
         include:
@@ -70,7 +71,7 @@ jobs:
       - name: Gradle Build Action
         uses: gradle/gradle-build-action@v2.11.1
         with:
-          gradle-version: 6.5
+          gradle-version: 7.5
 
       - name: Build args
         id: build_args
