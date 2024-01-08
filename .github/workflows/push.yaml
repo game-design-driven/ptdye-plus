@@ -169,4 +169,3 @@ jobs:
                 "curseforge/mods/*.toml"
             committer: Betsy <${{ github.actor }}@users.noreply.github.com>
             push-to-fork: jasperalani/Create-Prepare-to-Dye
-
