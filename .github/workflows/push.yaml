@@ -1,0 +1,166 @@
+name: Push Pipeline
+concurrency: Push-pipeline
+on:
+  push:
+    branches:
+      - main
+
+env:
+  pack-file: "pack.toml"
+  name: "Prepare to Dye Plus"
+  slug: "ptdye-plus"
+  loader: "forge"
+  mc_version: "1.19.2"
+  target_modpack_repo: "Yarden-zamir/create-prepare-to-dye"
+
+jobs:
+  tests:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: validate JSON and YAML files
+        uses: GrantBirki/json-yaml-validate@v2.4.0
+  tag_and_release:
+    permissions: 
+        contents: write
+        pull-requests: write
+        actions: write
+        deployments: write
+    runs-on: ubuntu-latest
+    outputs:
+      new_tag: ${{ steps.tag_version.outputs.new_tag }}
+      changelog: ${{ steps.tag_version.outputs.changelog }}
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      - name: Bump version and push tag
+        id: tag_version
+        uses: mathieudutour/github-tag-action@v6.1
+        with:
+          tag_prefix: ""
+          custom_release_rules:
+            "dev:patch:Developer experience improvments and
+            changes,tweak:patch:Minor
+            tweaks,feat:minor:Features,fix:patch:Fixes,revert:patch:Reverted
+            Changes,docs:patch:Documentation and Localization,test:patch:Tests
+            and testing related changes,mods:patch:Modlist related
+            changes,ci:patch:Continuous Integration"
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Create a GitHub release
+        uses: ncipollo/release-action@v1
+        with:
+          tag: ${{ steps.tag_version.outputs.new_tag }}
+          name: Release ${{ steps.tag_version.outputs.new_tag }}
+          body: ${{ steps.tag_version.outputs.changelog }}
+          token: ${{ secrets.GITHUB_TOKEN }}
+  build_and_release_on_modrinth_and_curseforge:
+    needs: [tag_and_release, tests]
+    name: Build and release ${{ matrix.platform }}
+    strategy:
+      matrix:
+        include:
+          - platform: modrinth
+          - platform: curseforge
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Gradle Build Action
+        uses: gradle/gradle-build-action@v2.11.1
+        with:
+          gradle-version: 7.5
+
+      - name: Build args
+        id: build_args
+        run:
+          echo 'name=${{ needs.tag_and_release.outputs.new_tag }}-${{ env.slug }}[${{env.loader}}][${{ matrix.platform }}]' >> $GITHUB_OUTPUT
+      - name: build
+        run: |
+            gradle wrapper
+            ./gradlew jar
+            ls build/libs
+      - name: Cache Gradle dependencies for forge
+        uses: actions/cache@v3.3.2
+        with:
+          path: ~/.gradle/caches
+          key: ${{ runner.os }}-gradle-forge-${{ env.mc_version }}-${{ env.loader }}
+    #   - name: Upload to GitHub Releases
+    #     run: |
+    #       gh release upload ${{ needs.tag_and_release.outputs.new_tag }} build/libs/*.jar \
+    #         --repo ${{ github.repository_owner }}/${{ github.event.repository.name }} \
+    #         --clobber
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: Publish to Modrinth
+        if: matrix.platform == 'modrinth'
+        uses: Kir-Antipov/mc-publish@v3.2
+        with:
+          modrinth-id: ${{ vars.MODRINTH_ID }}
+          modrinth-token: ${{ secrets.MODRINTH_TOKEN }}
+          loaders: ${{ env.loader}}
+          game-versions: ${{ env.mc_version}}
+          changelog: ${{ needs.tag_and_release.outputs.changelog }}
+          files: "build/libs/*.jar"
+          version: ${{ needs.tag_and_release.outputs.new_tag }}
+          version-type: beta
+          name: ${{ steps.build_args.outputs.name }}
+      - name: Update modrinth description to match reademe
+        if: matrix.platform == 'modrinth'
+        run: |
+          curl -X PATCH \
+            -H "Authorization: ${{ secrets.MODRINTH_TOKEN }}" \
+            -H "Content-Type: application/json" \
+            -d "$(cat README.md | jq -R -s '{body: .}')" \
+            https://api.modrinth.com/v2/project/${{ vars.MODRINTH_ID }}
+      - name: Publish to CurseForge
+        if: matrix.platform == 'curseforge'
+        uses: Kir-Antipov/mc-publish@v3.2
+        with:
+          curseforge-id: ${{ vars.CF_ID }}
+          curseforge-token: ${{ secrets.CF_API_TOKEN }}
+          loaders: ${{ env.loader}}
+          game-versions: ${{ env.mc_version}}
+          changelog: ${{ needs.tag_and_release.outputs.changelog }}
+          files: "build/libs/*.jar"
+          version: ${{ needs.tag_and_release.outputs.new_tag }}
+          version-type: release
+          name: ${{ steps.build_args.outputs.name }}
+  make_pr_for_modpackk:
+    needs: build_and_release_on_modrinth_and_curseforge
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          repository: ${{ env.target_modpack_repo }}
+          ref: main
+      - name: Install packwiz
+        uses: supplypike/setup-bin@v3
+        with:
+          uri: "https://nightly.link/packwiz/packwiz/workflows/go/main/Linux%2064-bit%20x86.zip"
+          name: "packwiz"
+          version: "linux"
+      - name: Build Modpack modrinth
+        run:
+          packwis modrinth update ${{ env.slug }}
+      - name: Build Modpack curseforge
+        run: |
+          cd curseforge
+          packwis curseforge update ${{ env.slug }}
+      - name: Create Pull Request
+        uses: peter-evans/create-pull-request@v5.0.2
+        with:
+            token: ${{ secrets.GITHUB_TOKEN }}
+            commit-message: "Updating ${{ env.name }} to ${{ needs.tag_and_release.outputs.new_tag }}"
+            title: "Updating ${{ env.name }} to ${{ needs.tag_and_release.outputs.new_tag }}"
+            body: "# Updating ${{ env.name }} to ${{ needs.tag_and_release.outputs.new_tag }}. \n\n ${{ needs.tag_and_release.outputs.changelog }}"
+            add-paths: |
+                "${{ env.pack-file }}"
+                "mods/*.toml"
+                "curseforge/${{ env.pack-file }}"
+                "curseforge/mods/*.toml"
+            committer: Betsy <${{ github.actor }}@users.noreply.github.com>
+            push-to-fork: true
+
