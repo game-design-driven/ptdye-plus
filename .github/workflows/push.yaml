@@ -80,7 +80,12 @@ jobs:
       - name: build
         run: |
             gradle wrapper
-            ./gradle jar
+            ./gradlew jar
+      - name: Cache Gradle dependencies for forge
+        uses: actions/cache@v3.3.2
+        with:
+          path: ~/.gradle/caches
+          key: ${{ runner.os }}-gradle-forge-${{ env.mc_version }}-${{ env.loader }}
       - name: Upload to GitHub Releases
         run: |
           gh release upload ${{ needs.tag_and_release.outputs.new_tag }} *.jar \
