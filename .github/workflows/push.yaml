@@ -1,5 +1,5 @@
-name: Pre-release Pipeline
-concurrency: pre-release-pipeline
+name: Push Pipeline
+concurrency: Push-pipeline
 on:
   push:
     branches:
