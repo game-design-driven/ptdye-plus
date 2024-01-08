@@ -11,7 +11,7 @@ env:
   slug: "ptdye-plus"
   loader: "forge"
   mc_version: "1.19.2"
-  target_modpack_repo: "jasperalani/create-prepare-to-dye"
+  target_modpack_repo: "yarden-zamir/create-prepare-to-dye"
 
 jobs:
   tests:
