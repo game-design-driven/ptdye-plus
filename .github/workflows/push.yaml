@@ -39,11 +39,11 @@ jobs:
         with:
           tag_prefix: ""
           custom_release_rules:
-            "dev:patch:Developer experience improvments and
+            "dev:patch:Developer experience improvements and
             changes,tweak:patch:Minor
             tweaks,feat:minor:Features,fix:patch:Fixes,revert:patch:Reverted
             Changes,docs:patch:Documentation and Localization,test:patch:Tests
-            and testing related changes,mods:patch:Modlist related
+            and testing related changes,mods:patch:Mod list related
             changes,ci:patch:Continuous Integration"
           github_token:  ${{ secrets.GITHUB_TOKEN }}
 
@@ -107,7 +107,7 @@ jobs:
           version: ${{ needs.tag_and_release.outputs.new_tag }}
           version-type: beta
           name: ${{ steps.build_args.outputs.name }}
-      - name: Update modrinth description to match reademe
+      - name: Update modrinth description to match readme
         if: matrix.platform == 'modrinth'
         run: |
           curl -X PATCH \
