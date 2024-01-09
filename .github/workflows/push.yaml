@@ -61,8 +61,8 @@ jobs:
         uses: actions/checkout@v4
       - name: Run update script
         run: |
+          chmod +x ./update_version.sh
           ./update_version.sh
-          shell: bash
   build_and_release_on_modrinth_and_curseforge:
     needs: [tag_and_release, tests]
     name: Build and release ${{ matrix.platform }}
