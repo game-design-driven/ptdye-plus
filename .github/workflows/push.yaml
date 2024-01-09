@@ -54,7 +54,8 @@ jobs:
           body: ${{ steps.tag_version.outputs.changelog }}
           token: ${{ secrets.GITHUB_TOKEN }}
   update_mod_version_files:
-    name: Update mod version files
+    needs: [tag_and_release, tests]
+    name: update mod version files
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
@@ -63,6 +64,10 @@ jobs:
         run: |
           chmod +x ./update_version.sh
           ./update_version.sh
+      - name: Commit changes
+        run: |
+          git commit -m "update version to ${{ needs.tag_and_release.outputs.new_tag }}"
+          git push origin main --force
   build_and_release_on_modrinth_and_curseforge:
     needs: [tag_and_release, tests]
     name: Build and release ${{ matrix.platform }}
@@ -75,16 +80,14 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
-
       - name: Gradle Build Action
         uses: gradle/gradle-build-action@v2.11.1
         with:
           gradle-version: 7.5
-
       - name: Build args
         id: build_args
         run:
-          echo 'name=${{ needs.tag_and_release.outputs.new_tag }}-${{ env.slug }}[${{env.loader}}][${{ matrix.platform }}]' >> $GITHUB_OUTPUT
+          echo 'name=ptdyeplus-${{ needs.tag_and_release.outputs.new_tag }}+${{env.loader}}-1.19.2' >> $GITHUB_OUTPUT
       - name: build
         run: |
             gradle wrapper
