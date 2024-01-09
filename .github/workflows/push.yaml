@@ -67,7 +67,7 @@ jobs:
       - name: Commit changes
         uses: stefanzweifel/git-auto-commit-action@v5
   build_and_release_on_modrinth_and_curseforge:
-    needs: [update_mod_version_files]
+    needs: [update_mod_version_files, tag_and_release, tests]
     name: Build and release ${{ matrix.platform }}
     strategy:
       matrix:
