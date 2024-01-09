@@ -57,6 +57,8 @@ jobs:
     name: Update mod version files
     runs-on: ubuntu-latest
     steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
       - name: Run update script
         run: |
           chmod +x ./update_version.sh
