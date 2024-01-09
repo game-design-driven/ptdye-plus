@@ -99,7 +99,7 @@ jobs:
       - name: Upload to GitHub Releases
         if: matrix.platform == 'modrinth'
         run: |
-           gh release upload${{ needs.tag_and_release.outputs.new_tag }} build/libs/*.jar \
+           gh release upload ${{ needs.tag_and_release.outputs.new_tag }} build/libs/*.jar \
              --repo ${{ github.repository_owner }}/${{ github.event.repository.name }} \
              --clobber
         env:
