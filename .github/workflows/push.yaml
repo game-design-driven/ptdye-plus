@@ -67,7 +67,7 @@ jobs:
       - name: Commit changes
         uses: stefanzweifel/git-auto-commit-action@v5
   build_and_release_on_modrinth_and_curseforge:
-    needs: [tag_and_release, tests]
+    needs: [tag_and_release, tests, update_mod_version_files]
     name: Build and release ${{ matrix.platform }}
     strategy:
       matrix:
@@ -138,7 +138,7 @@ jobs:
           version: ${{ needs.tag_and_release.outputs.new_tag }}
           version-type: release
           name: ${{ steps.build_args.outputs.name }}
-  make_pr_for_modpackk:
+  make_pr_for_modpack:
     needs: [build_and_release_on_modrinth_and_curseforge, tag_and_release]
     runs-on: ubuntu-latest
     steps:
