@@ -1,6 +1,6 @@
 package com.kikis.ptdyeplus.integration;
 
-import com.kikis.ptdyeplus.util.KeyBinding;
+import com.kikis.ptdyeplus.stonecutter.KeyBinding;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;

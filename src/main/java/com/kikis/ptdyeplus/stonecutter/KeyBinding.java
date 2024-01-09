@@ -1,4 +1,4 @@
-package com.kikis.ptdyeplus.util;
+package com.kikis.ptdyeplus.stonecutter;
 
 import com.mojang.blaze3d.platform.InputConstants;
 import net.minecraft.client.KeyMapping;

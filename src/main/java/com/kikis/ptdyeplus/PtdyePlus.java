@@ -1,6 +1,6 @@
 package com.kikis.ptdyeplus;
 
-import com.kikis.ptdyeplus.util.KeyBinding;
+import com.kikis.ptdyeplus.stonecutter.KeyBinding;
 import com.simibubi.create.foundation.gui.ScreenOpener;
 import com.simibubi.create.foundation.ponder.PonderRegistry;
 import com.simibubi.create.foundation.ponder.ui.PonderUI;
@@ -38,7 +38,6 @@ public class PtdyePlus
         @SubscribeEvent
         public static void registerCommands(RegisterCommandsEvent event){
             OpenStonecutter.register(event.getDispatcher());
-
         }
     }
 
