@@ -65,13 +65,14 @@ jobs:
           chmod +x ./update_version.sh
           ./update_version.sh
       - name: Commit changes
-        run: |
-          git config --local user.email ${{ github.actor }}@users.noreply.github.com
-          git config --local user.name ${{ github.actor }}
-          git add ./build.gradle
-          git add ./src/main/resources/META-INF/mods.toml
-          git commit -m "update version to ${{ needs.tag_and_release.outputs.new_tag }}"
-          git push origin main --force
+        uses: stefanzweifel/git-auto-commit-action@v5
+#        run: |
+#          git config --local user.email ${{ github.actor }}@users.noreply.github.com
+#          git config --local user.name ${{ github.actor }}
+#          git add ./build.gradle
+#          git add ./src/main/resources/META-INF/mods.toml
+#          git commit -m "update version to ${{ needs.tag_and_release.outputs.new_tag }}"
+#          git push origin main --force
   build_and_release_on_modrinth_and_curseforge:
     needs: [tag_and_release, tests]
     name: Build and release ${{ matrix.platform }}
