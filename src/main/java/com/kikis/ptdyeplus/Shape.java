@@ -1,4 +1,4 @@
-package com.kikis.ptdyeplus.util;
+package com.kikis.ptdyeplus;
 
 import net.minecraft.world.phys.shapes.BooleanOp;
 import net.minecraft.world.phys.shapes.Shapes;

@@ -27,11 +27,9 @@ import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.event.RegisterCommandsEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import org.slf4j.Logger;
-
 import java.util.*;
 
 
-@Mod("ptdyeplus")
 public class PtdyePlus
 {
     public static final String ID = "ptdyeplus";

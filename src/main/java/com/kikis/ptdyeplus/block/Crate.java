@@ -2,7 +2,7 @@ package com.kikis.ptdyeplus.block;
 
 import com.kikis.ptdyeplus.block.entity.CrateEntity;
 import com.kikis.ptdyeplus.block.property.fullness;
-import com.kikis.ptdyeplus.util.Shape;
+import com.kikis.ptdyeplus.Shape;
 import net.minecraft.core.BlockPos;
 import net.minecraft.stats.Stats;
 import net.minecraft.world.Container;
