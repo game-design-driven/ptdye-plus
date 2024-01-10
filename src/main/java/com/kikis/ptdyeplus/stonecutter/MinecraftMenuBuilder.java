@@ -1,4 +1,4 @@
-package com.kikis.ptdyeplus.util;
+package com.kikis.ptdyeplus.stonecutter;
 
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.inventory.AbstractContainerMenu;

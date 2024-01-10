@@ -1,13 +1,11 @@
 ### Ptdye Plus
-
-![Version](https://img.shields.io/badge/Version-1.2.4-purple)
-![Minecraft](https://img.shields.io/badge/Minecraft-1.19.2-blue)
+![Version](https://img.shields.io/github/v/release/jasperalani/ptdye-plus)
+![Minecraft](https://img.shields.io/modrinth/game-versions/ikDjkgLu?label=Avilable+for)
 ![Forge](https://img.shields.io/badge/Forge-43.3.0-darkblue)
 <br>
 [![Modrinth](https://img.shields.io/badge/Find%20us%20on-Modrinth-green)](https://modrinth.com/mod/ptdye-plus)
 [![CurseForge](https://img.shields.io/badge/Find%20us%20on-CurseForge-orange)](https://legacy.curseforge.com/minecraft/mc-mods/ptdye-plus)
 [![CPTD](https://img.shields.io/badge/Create-Prepare%20to%20Dye-yellow)](https://modrinth.com/modpack/create-prepare-to-dye)
-
 
 [![Discord](https://img.shields.io/badge/Discord-blue)](https://discord.gg/v8cZ83kTPY)
 
@@ -32,3 +30,4 @@ While the mod currently focuses on this stonecutter enhancement, expect future u
 
 - To download gradle dependencies click the `Reload All Gradle Projects` button (refresh/recycle icon) in the top left of the gradle task window (IntelliJ)
 - Run the game  by debugging the `runClient` gradle task and run `Build Project` or `CTRL+F9` to hotswap your code changes.
+ 
