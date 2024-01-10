@@ -1,17 +1,14 @@
 package com.kikis.ptdyeplus;
 
-import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
-import com.kikis.ptdyeplus.kubejs.PtdyeJS;
-import com.kikis.ptdyeplus.kubejs.Utils;
+import com.kikis.ptdyeplus.init.BlockEntityInit;
+import com.kikis.ptdyeplus.init.BlockInit;
+import com.kikis.ptdyeplus.init.ItemInit;
 import com.kikis.ptdyeplus.util.KeyBinding;
+import com.mojang.logging.LogUtils;
 import com.simibubi.create.foundation.gui.ScreenOpener;
 import com.simibubi.create.foundation.ponder.PonderRegistry;
 import com.simibubi.create.foundation.ponder.ui.PonderUI;
-import net.minecraft.client.KeyMapping;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.Options;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Registry;
 import net.minecraft.network.chat.Component;
@@ -24,26 +21,31 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.client.event.InputEvent;
 import net.minecraftforge.client.event.RegisterKeyMappingsEvent;
 import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.event.RegisterCommandsEvent;
-import org.lwjgl.glfw.GLFW;
+import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
+import org.slf4j.Logger;
 
-import java.io.IOException;
-import java.lang.reflect.Field;
 import java.util.*;
 
-import net.minecraft.client.renderer.ItemBlockRenderTypes;
 
 @Mod("ptdyeplus")
 public class PtdyePlus
 {
     public static final String ID = "ptdyeplus";
+    public static final Logger LOGGER = LogUtils.getLogger();
     private static final Minecraft minecraft = Minecraft.getInstance();
-
     public PtdyePlus()
     {
         MinecraftForge.EVENT_BUS.register(this);
+
+        IEventBus bus = FMLJavaModLoadingContext.get().getModEventBus();
+
+        ItemInit.ITEMS.register(bus);
+        BlockInit.BLOCKS.register(bus);
+        BlockEntityInit.ENTITY_TYPES.register(bus);
     }
     
     @Mod.EventBusSubscriber(modid = ID, bus = Mod.EventBusSubscriber.Bus.FORGE)
