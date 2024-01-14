@@ -1,0 +1,52 @@
+{
+  "multipart": [
+    {
+      "when": {
+        "fullness": 0
+      },
+      "apply": {
+        "model": "ptdyeplus:block/barrel/barrel_0"
+      }
+    },
+    {
+      "when": {
+        "fullness": 1
+      },
+      "apply": {
+        "model": "ptdyeplus:block/barrel/barrel_1"
+      }
+    },
+    {
+      "when": {
+        "fullness": 2
+      },
+      "apply": {
+        "model": "ptdyeplus:block/barrel/barrel_2"
+      }
+    },
+    {
+      "when": {
+        "fullness": 3
+      },
+      "apply": {
+        "model": "ptdyeplus:block/barrel/barrel_3"
+      }
+    },
+    {
+      "when": {
+        "fullness": 4
+      },
+      "apply": {
+        "model": "ptdyeplus:block/barrel/barrel_4"
+      }
+    },
+    {
+      "when": {
+        "fullness": 5
+      },
+      "apply": {
+        "model": "ptdyeplus:block/barrel/barrel_5"
+      }
+    }
+  ]
+}
