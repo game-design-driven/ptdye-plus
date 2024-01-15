@@ -125,6 +125,14 @@ repositories {
             includeGroup "dev.latvian.mods"
         }
     }
+
+    maven {
+        // K4Unl's Maven (AE2)
+        url = "https://modmaven.dev"
+        content {
+            includeGroup 'appeng'
+        }
+    }
 }
 
 dependencies {
@@ -146,6 +154,9 @@ dependencies {
 
     // Gson
     implementation 'com.google.code.gson:gson:2.10.1'
+
+    // AE2
+    compileOnly "appeng:appliedenergistics2-forge:${appeng_version}"
 }
 
 jar {

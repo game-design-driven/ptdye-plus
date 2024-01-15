@@ -1,8 +1,8 @@
-package com.kikis.ptdyeplus.kubejs;
+package com.kikis.ptdyeplus.kubejs.events;
 
 import dev.latvian.mods.kubejs.event.EventJS;
 
-public class CustomEvent extends EventJS {
+public final class CustomEvent extends EventJS {
 
     public static String test() {
         return "it works!";
