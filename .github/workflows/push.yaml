@@ -161,6 +161,8 @@ jobs:
           packwiz update ${{ env.slug }}
       - name: Build Modpack curseforge
         run: |
+          echo Waiting 15 minutes for curseforge to approve the uploaded jar
+          sleep 900
           cd curseforge
           packwiz update ${{ env.slug }}
       - name: Commit changes
