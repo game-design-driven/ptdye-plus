@@ -11,7 +11,7 @@ env:
   slug: "ptdye-plus"
   loader: "forge"
   mc_version: "1.19.2"
-  target_modpack_repo: "Yarden-zamir/Create-Prepare-to-Dye"
+  target_modpack_repo: "game-design-driven/Create-Prepare-to-Dye"
 
 jobs:
   tests:
