@@ -104,7 +104,7 @@ jobs:
           GH_TOKEN: ${{ secrets.GH_TOKEN }}
       - name: Publish to Modrinth
         if: matrix.platform == 'modrinth'
-        uses: Kir-Antipov/mc-publish@v3.3
+        uses: Kir-Antipov/mc-publish@v3.3.0
         with:
           modrinth-id: ${{ vars.MODRINTH_ID }}
           modrinth-token: ${{ secrets.MODRINTH_TOKEN }}
@@ -125,7 +125,7 @@ jobs:
             https://api.modrinth.com/v2/project/${{ vars.MODRINTH_ID }}
       - name: Publish to CurseForge
         if: matrix.platform == 'curseforge'
-        uses: Kir-Antipov/mc-publish@v3.3
+        uses: Kir-Antipov/mc-publish@v3.3.0
         with:
           curseforge-id: ${{ vars.CF_ID }}
           curseforge-token: ${{ secrets.CF_API_TOKEN }}
