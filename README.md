@@ -15,7 +15,7 @@ This mod includes code for features and bug fixes not achievable with KubeJS, th
 
 Keep in mind that this mod is primarily tested for use within the CPTD modpack, and using it elsewhere may lead to unexpected behavior.
 
-Key Features:
+Key Features: 
 
 - Command to access the stonecutter GUI: /openStonecutter
   - By using the "/openStonecutter" command, players can directly access the stonecutter's GUI, making it more convenient to craft devices.
