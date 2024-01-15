@@ -11,10 +11,15 @@ version="${unformattedVersion::-14}"
 #newVersion="$minorRemoved$minorIncreased"
 newVersion=$1
 
-# Replace in build.gradle
-find build.gradle -type f -exec sed -i "s/$version/$newVersion/g" {} \;
+if [ $newVersion != "" ]
+then
+  # Replace in build.gradle
+  find build.gradle -type f -exec sed -i "s/$version/$newVersion/g" {} \;
+  
+  # Replace in mods.toml
+  find ./src/main/resources/META-INF/mods.toml -type f -exec sed -i "s/$version/$newVersion/g" {} \;
 
-# Replace in mods.toml
-find ./src/main/resources/META-INF/mods.toml -type f -exec sed -i "s/$version/$newVersion/g" {} \;
-
-echo "Replaced $version with $newVersion"
+  echo "Replaced $version with $newVersion"
+else
+  echo "Error replacing version"
+fi
