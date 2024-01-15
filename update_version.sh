@@ -9,7 +9,7 @@ version="${unformattedVersion::-14}"
 #minorRemoved="${version::-1}"
 #minorIncreased="$(($minor + 1))"
 #newVersion="$minorRemoved$minorIncreased"
-newVersion="$1"
+newVersion=$1
 
 # Replace in build.gradle
 find build.gradle -type f -exec sed -i "s/$version/$newVersion/g" {} \;
