@@ -27,4 +27,3 @@ Key Features:
 
 - To download gradle dependencies click the `Reload All Gradle Projects` button (refresh/recycle icon) in the top left of the gradle task window (IntelliJ)
 - Run the game  by debugging the `runClient` gradle task and run `Build Project` or `CTRL+F9` to hotswap your code changes.
- 
