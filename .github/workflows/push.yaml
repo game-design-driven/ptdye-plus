@@ -39,12 +39,7 @@ jobs:
         with:
           tag_prefix: ""
           custom_release_rules:
-            "dev:patch:Developer experience improvements and
-            changes,tweak:patch:Minor
-            tweaks,feat:minor:Features,fix:patch:Fixes,revert:patch:Reverted
-            Changes,docs:patch:Documentation and Localization,test:patch:Tests
-            and testing related changes,mods:patch:Mod list related
-            changes,ci:patch:Continuous Integration"
+            "dev:patch:Developer experience improvments and changes,tweak:patch:Minor tweaks,feat:minor:Features,fix:patch:Fixes,revert:patch:Reverted Changes,docs:patch:Documentation and Localization,test:patch:Tests and testing related changes,mods:patch:Modlist related changes,ci:patch:Continuous Integration"
           github_token:  ${{ secrets.GITHUB_TOKEN }}
       - name: Create a GitHub release
         uses: ncipollo/release-action@v1
@@ -62,9 +57,9 @@ jobs:
         uses: actions/checkout@v4
       - name: Run update script
         run: |
+          echo "${{ steps.tag_version.outputs.new_tag }}"
           chmod +x ./update_version.sh
-          ./update_version.sh ${{ steps.tag_version.outputs.new_tag }}
-          echo ${{ steps.tag_version.outputs.new_tag }}
+          ./update_version.sh "${{ steps.tag_version.outputs.new_tag }}"
       - name: Commit changes
         uses: stefanzweifel/git-auto-commit-action@v5
         with:
