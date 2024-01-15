@@ -77,8 +77,9 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
+      - name: Update code
+        run: |
+          git pull origin master
       - name: Gradle Build Action
         uses: gradle/gradle-build-action@v2.11.1
         with:
