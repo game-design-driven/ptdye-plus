@@ -64,6 +64,7 @@ jobs:
         uses: stefanzweifel/git-auto-commit-action@v5
         with:
           commit_message: update version to ${{ needs.tag_and_release.outputs.new_tag }}
+          branch: main
   build_and_release_on_modrinth_and_curseforge:
     needs: [update_mod_version_files, tag_and_release, tests]
     name: Build and release ${{ matrix.platform }}
