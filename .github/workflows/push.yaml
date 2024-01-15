@@ -77,10 +77,13 @@ jobs:
           - platform: curseforge
     runs-on: ubuntu-latest
     steps:
+      - name: Test ref
+        run: |
+          echo commit hash ${{ needs.update_mod_version_files.outputs.commit_hash }}
       - name: Checkout code
         uses: actions/checkout@v4
         with:
-          ref: '${{ needs.update_mod_version_files.outputs.commit_hash }}'
+          ref: ${{ needs.update_mod_version_files.outputs.commit_hash }}
       - name: Gradle Build Action
         uses: gradle/gradle-build-action@v2.11.1
         with:
