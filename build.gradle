@@ -133,6 +133,8 @@ repositories {
             includeGroup 'appeng'
         }
     }
+
+    // AE2Things repo is in settings.gradle
 }
 
 dependencies {
@@ -157,6 +159,9 @@ dependencies {
 
     // AE2
     compileOnly "appeng:appliedenergistics2-forge:${appeng_version}"
+
+    // AE2 Things
+    compileOnly "dev.technici4n:AE2-Things:${ae2things_version}"
 }
 
 jar {
