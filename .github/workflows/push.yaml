@@ -57,13 +57,13 @@ jobs:
         uses: actions/checkout@v4
       - name: Run update script
         run: |
-          echo "${{ steps.tag_version.outputs.new_tag }}"
+          echo Update version files to ${{ needs.tag_and_release.outputs.new_tag }}
           chmod +x ./update_version.sh
-          ./update_version.sh "${{ steps.tag_version.outputs.new_tag }}"
+          ./update_version.sh ${{ needs.tag_and_release.outputs.new_tag }}
       - name: Commit changes
         uses: stefanzweifel/git-auto-commit-action@v5
         with:
-          commit_message: update version to ${{ steps.tag_version.outputs.new_tag }}
+          commit_message: update version to ${{ needs.tag_and_release.outputs.new_tag }}
   build_and_release_on_modrinth_and_curseforge:
     needs: [update_mod_version_files, tag_and_release, tests]
     name: Build and release ${{ matrix.platform }}
