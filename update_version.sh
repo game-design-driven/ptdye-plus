@@ -16,3 +16,5 @@ find build.gradle -type f -exec sed -i "s/$version/$newVersion/g" {} \;
 
 # Replace in mods.toml
 find ./src/main/resources/META-INF/mods.toml -type f -exec sed -i "s/$version/$newVersion/g" {} \;
+
+echo "Replaced $version with $newVersion"
