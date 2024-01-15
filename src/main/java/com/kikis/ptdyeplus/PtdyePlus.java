@@ -35,11 +35,12 @@ public class PtdyePlus
     public static final String ID = "ptdyeplus";
     public static final Logger LOGGER = LogUtils.getLogger();
     private static final Minecraft minecraft = Minecraft.getInstance();
-    public PtdyePlus()
-    {
+    public PtdyePlus() {
         MinecraftForge.EVENT_BUS.register(this);
 
         IEventBus bus = FMLJavaModLoadingContext.get().getModEventBus();
+
+        Shenanigans.commenceTomfoolery();
 
         ItemInit.ITEMS.register(bus);
         BlockInit.BLOCKS.register(bus);
