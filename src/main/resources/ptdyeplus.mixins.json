@@ -1,0 +1,11 @@
+{
+  "required": true,
+  "priority": 1000,
+  "minVersion": "0.8",
+  "refmap": "ptdyeplus.refmap.json",
+  "package": "com.kikis.ptdyeplus.mixin",
+  "mixins": [
+    "vanilla.RandomizableContainerBlockEntityMixin"
+  ],
+  "target": "net.minecraft.world.level.block.entity.RandomizableContainerBlockEntity"
+}
