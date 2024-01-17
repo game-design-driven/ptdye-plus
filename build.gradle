@@ -145,6 +145,9 @@ dependencies {
     // Jade
     implementation fg.deobf("curse.maven:jade-324717:${jade_id}")
 
+    // Wares
+    implementation fg.deobf("curse.maven:wares-839158:${wares_id}")
+
     // KubeJS
     implementation fg.deobf("dev.latvian.mods:kubejs-forge:${kubejs_version}")
     implementation fg.deobf("dev.latvian.mods:rhino-forge:${rhino_version}")

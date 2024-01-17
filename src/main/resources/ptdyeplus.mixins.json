@@ -5,7 +5,10 @@
   "refmap": "ptdyeplus.refmap.json",
   "package": "com.kikis.ptdyeplus.mixin",
   "mixins": [
-    "vanilla.RandomizableContainerBlockEntityMixin"
-  ],
-  "target": "net.minecraft.world.level.block.entity.RandomizableContainerBlockEntity"
+    "vanilla.AbstractFurnaceBlockEntityMixin",
+    "vanilla.BrewingStandBlockEntityMixin",
+    "vanilla.EnderChestBlockEntityMixin",
+    "vanilla.RandomizableContainerBlockEntityMixin",
+    "wares.DeliveryTableBlockEntityMixin"
+  ]
 }
