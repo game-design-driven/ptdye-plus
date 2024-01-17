@@ -1,6 +1,10 @@
 package com.kikis.ptdyeplus;
 
-import com.kikis.ptdyeplus.util.KeyBinding;
+import com.kikis.ptdyeplus.init.BlockEntityInit;
+import com.kikis.ptdyeplus.init.BlockInit;
+import com.kikis.ptdyeplus.init.ItemInit;
+import com.mojang.logging.LogUtils;
+import com.kikis.ptdyeplus.stonecutter.KeyBinding;
 import com.simibubi.create.foundation.gui.ScreenOpener;
 import com.simibubi.create.foundation.ponder.PonderRegistry;
 import com.simibubi.create.foundation.ponder.ui.PonderUI;
@@ -17,19 +21,32 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.client.event.InputEvent;
 import net.minecraftforge.client.event.RegisterKeyMappingsEvent;
 import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.event.RegisterCommandsEvent;
+import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
+import org.slf4j.Logger;
 import java.util.*;
+
 
 public class PtdyePlus
 {
     public static final String ID = "ptdyeplus";
-    private static final Minecraft minecraft = Minecraft.getInstance();
+    public static final Logger LOGGER = LogUtils.getLogger();
 
+    public static final int REACH_DISTANCE = 30;
+    public static final double REACH_DISTANCE_SQR = Math.pow(REACH_DISTANCE, 2);
+    private static final Minecraft minecraft = Minecraft.getInstance();
     public PtdyePlus()
     {
         MinecraftForge.EVENT_BUS.register(this);
+
+        IEventBus bus = FMLJavaModLoadingContext.get().getModEventBus();
+
+        ItemInit.ITEMS.register(bus);
+        BlockInit.BLOCKS.register(bus);
+        BlockEntityInit.ENTITY_TYPES.register(bus);
     }
     
     @Mod.EventBusSubscriber(modid = ID, bus = Mod.EventBusSubscriber.Bus.FORGE)
@@ -38,7 +55,6 @@ public class PtdyePlus
         @SubscribeEvent
         public static void registerCommands(RegisterCommandsEvent event){
             OpenStonecutter.register(event.getDispatcher());
-
         }
     }
 

@@ -6,9 +6,7 @@ import net.minecraftforge.fml.common.Mod;
 
 @Mod("ptdyeplus")
 public class Bootstrap {
-
     public Bootstrap() {
         DistExecutor.safeRunWhenOn(Dist.CLIENT, () -> PtdyePlus::new);
     }
-
 }
