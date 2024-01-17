@@ -11,7 +11,7 @@ env:
   slug: "ptdye-plus"
   loader: "forge"
   mc_version: "1.19.2"
-  target_modpack_repo: "Yarden-zamir/Create-Prepare-to-Dye"
+  target_modpack_repo: "game-design-driven/Create-Prepare-to-Dye"
 
 jobs:
   tests:
@@ -39,12 +39,7 @@ jobs:
         with:
           tag_prefix: ""
           custom_release_rules:
-            "dev:patch:Developer experience improvements and
-            changes,tweak:patch:Minor
-            tweaks,feat:minor:Features,fix:patch:Fixes,revert:patch:Reverted
-            Changes,docs:patch:Documentation and Localization,test:patch:Tests
-            and testing related changes,mods:patch:Mod list related
-            changes,ci:patch:Continuous Integration"
+            "dev:patch:Developer experience improvments and changes,tweak:patch:Minor tweaks,feat:minor:Features,fix:patch:Fixes,revert:patch:Reverted Changes,docs:patch:Documentation and Localization,test:patch:Tests and testing related changes,mods:patch:Modlist related changes,ci:patch:Continuous Integration"
           github_token:  ${{ secrets.GITHUB_TOKEN }}
       - name: Create a GitHub release
         uses: ncipollo/release-action@v1
@@ -62,10 +57,14 @@ jobs:
         uses: actions/checkout@v4
       - name: Run update script
         run: |
+          echo Update version files to ${{ needs.tag_and_release.outputs.new_tag }}
           chmod +x ./update_version.sh
-          ./update_version.sh ${{ steps.tag_version.outputs.new_tag }}
+          ./update_version.sh ${{ needs.tag_and_release.outputs.new_tag }}
       - name: Commit changes
         uses: stefanzweifel/git-auto-commit-action@v5
+        with:
+          commit_message: update version to ${{ needs.tag_and_release.outputs.new_tag }}
+          branch: main
   build_and_release_on_modrinth_and_curseforge:
     needs: [update_mod_version_files, tag_and_release, tests]
     name: Build and release ${{ matrix.platform }}
@@ -78,6 +77,9 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
+      - name: Update code
+        run: |
+          git pull origin main
       - name: Gradle Build Action
         uses: gradle/gradle-build-action@v2.11.1
         with:
@@ -106,7 +108,7 @@ jobs:
           GH_TOKEN: ${{ secrets.GH_TOKEN }}
       - name: Publish to Modrinth
         if: matrix.platform == 'modrinth'
-        uses: Kir-Antipov/mc-publish@v3.2
+        uses: Kir-Antipov/mc-publish@v3.3.0
         with:
           modrinth-id: ${{ vars.MODRINTH_ID }}
           modrinth-token: ${{ secrets.MODRINTH_TOKEN }}
@@ -127,7 +129,7 @@ jobs:
             https://api.modrinth.com/v2/project/${{ vars.MODRINTH_ID }}
       - name: Publish to CurseForge
         if: matrix.platform == 'curseforge'
-        uses: Kir-Antipov/mc-publish@v3.2
+        uses: Kir-Antipov/mc-publish@v3.3.0
         with:
           curseforge-id: ${{ vars.CF_ID }}
           curseforge-token: ${{ secrets.CF_API_TOKEN }}
@@ -157,8 +159,12 @@ jobs:
       - name: Build Modpack modrinth
         run:
           packwiz update ${{ env.slug }}
+      - name: Wait for curseforge
+        run: |
+          echo Waiting 15 minutes for curseforge to approve the uploaded jar
       - name: Build Modpack curseforge
         run: |
+          sleep 900
           cd curseforge
           packwiz update ${{ env.slug }}
       - name: Commit changes
