@@ -29,14 +29,10 @@ import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import org.slf4j.Logger;
 import java.util.*;
 
-
 public class PtdyePlus
 {
     public static final String ID = "ptdyeplus";
     public static final Logger LOGGER = LogUtils.getLogger();
-
-    public static final int REACH_DISTANCE = 30;
-    public static final double REACH_DISTANCE_SQR = Math.pow(REACH_DISTANCE, 2);
     private static final Minecraft minecraft = Minecraft.getInstance();
     public PtdyePlus()
     {
