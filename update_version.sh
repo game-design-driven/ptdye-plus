@@ -1,15 +1,19 @@
 #!/bin/bash
 
+# Replace the version in build.gradle and mods.toml with the first argument
+# usage: ./update_version.sh 1.2
+
 unformattedVersion=$(awk -v FS="version = " 'NF>1{print $2}' build.gradle)
 
 unformattedVersion="${unformattedVersion:1}"
 version="${unformattedVersion::-14}"
 
-#minor="${version: -1}"
-#minorRemoved="${version::-1}"
-#minorIncreased="$(($minor + 1))"
-#newVersion="$minorRemoved$minorIncreased"
 newVersion=$1
+
+if [ $newVersion == "" ]
+then
+  newVersion="1.0.0"
+fi
 
 if [ $newVersion != "" ]
 then
