@@ -1,7 +1,7 @@
-package com.kikis.ptdyeplus;
+package com.kikis.ptdyeplus.commands;
 
-import com.kikis.ptdyeplus.stonecutter.EntityContainerLevelAccess;
-import com.kikis.ptdyeplus.stonecutter.MinecraftMenuBuilder;
+import com.kikis.ptdyeplus.commands.stonecutter.EntityContainerLevelAccess;
+import com.kikis.ptdyeplus.commands.stonecutter.MinecraftMenuBuilder;
 import com.mojang.brigadier.Command;
 import com.mojang.brigadier.CommandDispatcher;
 import com.mojang.brigadier.context.CommandContext;

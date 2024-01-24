@@ -1,10 +1,11 @@
 package com.kikis.ptdyeplus;
 
+import com.kikis.ptdyeplus.commands.OpenStonecutter;
 import com.kikis.ptdyeplus.init.BlockEntityInit;
 import com.kikis.ptdyeplus.init.BlockInit;
 import com.kikis.ptdyeplus.init.ItemInit;
 import com.mojang.logging.LogUtils;
-import com.kikis.ptdyeplus.stonecutter.KeyBinding;
+import com.kikis.ptdyeplus.commands.stonecutter.KeyBinding;
 import com.simibubi.create.foundation.gui.ScreenOpener;
 import com.simibubi.create.foundation.ponder.PonderRegistry;
 import com.simibubi.create.foundation.ponder.ui.PonderUI;
@@ -29,14 +30,10 @@ import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import org.slf4j.Logger;
 import java.util.*;
 
-
 public class PtdyePlus
 {
     public static final String ID = "ptdyeplus";
     public static final Logger LOGGER = LogUtils.getLogger();
-
-    public static final int REACH_DISTANCE = 30;
-    public static final double REACH_DISTANCE_SQR = Math.pow(REACH_DISTANCE, 2);
     private static final Minecraft minecraft = Minecraft.getInstance();
     public PtdyePlus()
     {

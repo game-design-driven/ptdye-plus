@@ -1,12 +1,12 @@
 package com.kikis.ptdyeplus.kubejs;
 
-import com.kikis.ptdyeplus.OpenStonecutter;
+import com.kikis.ptdyeplus.commands.OpenStonecutter;
 import com.kikis.ptdyeplus.PtdyePlus;
-import com.kikis.ptdyeplus.integration.PonderTooltipComponentProvider;
-import com.kikis.ptdyeplus.integration.PonderTooltipPlugin;
-import com.kikis.ptdyeplus.stonecutter.EntityContainerLevelAccess;
-import com.kikis.ptdyeplus.stonecutter.KeyBinding;
-import com.kikis.ptdyeplus.stonecutter.MinecraftMenuBuilder;
+import com.kikis.ptdyeplus.integration.jade.PonderTooltipComponentProvider;
+import com.kikis.ptdyeplus.integration.jade.PonderTooltipPlugin;
+import com.kikis.ptdyeplus.commands.stonecutter.EntityContainerLevelAccess;
+import com.kikis.ptdyeplus.commands.stonecutter.KeyBinding;
+import com.kikis.ptdyeplus.commands.stonecutter.MinecraftMenuBuilder;
 import dev.latvian.mods.kubejs.KubeJSPlugin;
 import dev.latvian.mods.kubejs.event.EventGroup;
 import dev.latvian.mods.kubejs.event.EventHandler;
