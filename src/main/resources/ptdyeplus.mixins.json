@@ -5,8 +5,8 @@
   "refmap": "ptdyeplus.refmap.json",
   "package": "com.kikis.ptdyeplus.mixin",
   "mixins": [
-    "vanilla.AnvilMenuMixin",
     "vanilla.AbstractFurnaceBlockEntityMixin",
+    "vanilla.AnvilMenuAccessor",
     "vanilla.BrewingStandBlockEntityMixin",
     "vanilla.EnderChestBlockEntityMixin",
     "vanilla.RandomizableContainerBlockEntityMixin",

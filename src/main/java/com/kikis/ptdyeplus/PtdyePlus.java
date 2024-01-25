@@ -51,7 +51,7 @@ public class PtdyePlus
         BlockInit.BLOCKS.register(bus);
         BlockEntityInit.ENTITY_TYPES.register(bus);
 
-//        AnvilMenuMixin.setRenameCost(0);
+//        AnvilMenuAccessor.setRenameCost(0);
     }
     
     @Mod.EventBusSubscriber(modid = ID, bus = Mod.EventBusSubscriber.Bus.FORGE)

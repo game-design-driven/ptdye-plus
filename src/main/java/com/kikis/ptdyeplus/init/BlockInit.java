@@ -1,12 +1,14 @@
 package com.kikis.ptdyeplus.init;
 
 import com.kikis.ptdyeplus.PtdyePlus;
+import com.kikis.ptdyeplus.block.AnvilCloneBlock;
 import com.kikis.ptdyeplus.block.Barrel;
 import com.kikis.ptdyeplus.block.Crate;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.material.Material;
@@ -30,6 +32,12 @@ public class BlockInit{
     public static final RegistryObject<Crate> CRATE = register(
             "crate_barrel",
             () -> new Crate(BlockBehaviour.Properties.of(Material.METAL).sound(SoundType.METAL).dynamicShape()),
+            new Item.Properties().tab(CreativeModeTab.TAB_DECORATIONS)
+    );
+
+    public static final RegistryObject<AnvilCloneBlock> ANVIL_CLONE = register(
+            "anvil",
+            () -> new AnvilCloneBlock(BlockBehaviour.Properties.copy(Blocks.ANVIL)),
             new Item.Properties().tab(CreativeModeTab.TAB_DECORATIONS)
     );
 
