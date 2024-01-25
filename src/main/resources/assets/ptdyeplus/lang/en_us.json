@@ -6,5 +6,7 @@
   "ptdyeplus.container.barrel": "Barrel",
   "block.ptdyeplus.barrel_barrel": "Barrel",
   "ptdyeplus.container.crate": "Crate",
-  "block.ptdyeplus.crate_barrel": "Crate"
+  "block.ptdyeplus.crate_barrel": "Crate",
+  "key.ptdyeplus.try_ponder": "Try open ponder on targeted block",
+  "key.ptdyeplus.category": "Create: Prepare to Dye"
 }
