@@ -6,5 +6,7 @@
   "ptdyeplus.container.barrel": "Barrel",
   "block.ptdyeplus.barrel_barrel": "Barrel",
   "ptdyeplus.container.crate": "Crate",
-  "block.ptdyeplus.crate_barrel": "Crate"
+  "block.ptdyeplus.crate_barrel": "Crate",
+  "block.ptdyeplus.anvil": "Anvil",
+  "ptdyeplus.container.anvilClone": "Rename"
 }

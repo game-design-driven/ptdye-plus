@@ -1,6 +1,6 @@
 package com.kikis.ptdyeplus.block;
 
-import com.kikis.ptdyeplus.client.AnvilCloneMenu;
+import com.kikis.ptdyeplus.block.menu.AnvilCloneMenu;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.MenuProvider;
@@ -13,7 +13,7 @@ import org.apache.commons.lang3.NotImplementedException;
 import org.jetbrains.annotations.Nullable;
 
 public class AnvilCloneBlock extends AnvilBlock {
-    private static final Component CONTAINER_TITLE = Component.translatable("container.repair");
+    private static final Component CONTAINER_TITLE = Component.translatable("ptdyeplus.container.anvilClone");
     public static final boolean TAKES_DAMAGE = false;
 
     @Nullable

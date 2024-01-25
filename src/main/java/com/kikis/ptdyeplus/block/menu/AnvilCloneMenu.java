@@ -1,4 +1,4 @@
-package com.kikis.ptdyeplus.client;
+package com.kikis.ptdyeplus.block.menu;
 
 import com.kikis.ptdyeplus.block.AnvilCloneBlock;
 import com.kikis.ptdyeplus.mixin.vanilla.AnvilMenuAccessor;
