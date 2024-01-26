@@ -20,11 +20,11 @@ public class PtdyeJS extends KubeJSPlugin {
 
     @Override
     public void registerEvents() {
-        GROUP.register();
+        PtdyeEvents.GROUP.register();
     }
 
     @Override
     public void registerBindings(BindingsEvent event) {
-        event.add("Ptdye", BaseBindings.class);
+        event.add("Ptdye", PtdyeBindings.class);
     }
 }
