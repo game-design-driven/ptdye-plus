@@ -23,13 +23,13 @@ public class BlockInit{
 
     public static final RegistryObject<Barrel> BARREL = register(
             "barrel_barrel",
-            () -> new Barrel(BlockBehaviour.Properties.of(Material.METAL).sound(SoundType.METAL).dynamicShape()),
+            () -> new Barrel(BlockBehaviour.Properties.of(Material.METAL).sound(SoundType.METAL).dynamicShape().strength(2, 8)),
             new Item.Properties().tab(CreativeModeTab.TAB_DECORATIONS)
     );
 
     public static final RegistryObject<Crate> CRATE = register(
             "crate_barrel",
-            () -> new Crate(BlockBehaviour.Properties.of(Material.METAL).sound(SoundType.METAL).dynamicShape()),
+            () -> new Crate(BlockBehaviour.Properties.of(Material.METAL).sound(SoundType.METAL).dynamicShape().strength(2, 8)),
             new Item.Properties().tab(CreativeModeTab.TAB_DECORATIONS)
     );
 
