@@ -1,10 +1,8 @@
-package com.kikis.ptdyeplus.kubejs;
+package com.kikis.ptdyeplus.kubejs.bindings;
 
 import com.kikis.ptdyeplus.PtdyePlus;
 import com.simibubi.create.content.contraptions.mounted.CartAssemblerBlockEntity;
 import com.simibubi.create.foundation.utility.NBTHelper;
-import net.minecraft.client.KeyMapping;
-import net.minecraft.client.Minecraft;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
@@ -15,55 +13,13 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.chunk.HashMapPalette;
 import net.minecraft.world.phys.AABB;
 import net.minecraftforge.registries.GameData;
-import org.lwjgl.glfw.GLFW;
 
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.util.ArrayList;
-import java.util.Objects;
 import java.util.Set;
 
-public class Utils {
-
-    /**
-     *  Get key by key code
-     *  @param keyCode example: "key.forward"
-     *  @return the key or "key-not-found"
-     */
-    public String getKey(String keyCode) throws java.lang.IllegalStateException {
-        int keyNumericalValue = 0;
-        for (KeyMapping keyMapping : getKeyMappings()) {
-            if( Objects.equals(keyMapping.getName(), keyCode)) {
-                if ( Objects.equals("key.keyboard.unknown", keyMapping.getKey().getName()) ) {
-                    break;
-                }
-                keyNumericalValue = keyMapping.getKey().getValue();
-            }
-        }
-
-        if(keyNumericalValue != 0){
-            int scancode = GLFW.glfwGetKeyScancode(keyNumericalValue);
-            return GLFW.glfwGetKeyName(keyNumericalValue, scancode);
-        }
-
-        return "key-not-found";
-    }
-
-    private static ArrayList<KeyMapping> getKeyMappings() {
-        ArrayList<KeyMapping> mappings = new ArrayList<>();
-
-        for (KeyMapping keyMapping : Minecraft.getInstance().options.keyMappings) {
-            // Don't include if keymapping is on the mouse
-            if(keyMapping.getKey().getName().contains(".mouse.")){
-                continue;
-            }
-
-            mappings.add(keyMapping);
-        }
-
-        return mappings;
-    }
+public final class AnimationJS {
 
     /**
      * Creates a contraption nbt from given block positions
