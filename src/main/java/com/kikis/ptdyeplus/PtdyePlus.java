@@ -1,11 +1,11 @@
 package com.kikis.ptdyeplus;
 
-import com.kikis.ptdyeplus.commands.OpenStonecutter;
 import com.kikis.ptdyeplus.init.BlockEntityInit;
 import com.kikis.ptdyeplus.init.BlockInit;
 import com.kikis.ptdyeplus.init.ItemInit;
-import com.mojang.logging.LogUtils;
+import com.kikis.ptdyeplus.stonecutter.KeyBinding;
 import com.llamalad7.mixinextras.MixinExtrasBootstrap;
+import com.mojang.logging.LogUtils;
 import com.simibubi.create.foundation.gui.ScreenOpener;
 import com.simibubi.create.foundation.ponder.PonderRegistry;
 import com.simibubi.create.foundation.ponder.ui.PonderUI;
@@ -31,10 +31,14 @@ import org.slf4j.Logger;
 
 import java.util.NoSuchElementException;
 
+
 public class PtdyePlus
 {
     public static final String ID = "ptdyeplus";
     public static final Logger LOGGER = LogUtils.getLogger();
+
+    public static final int REACH_DISTANCE = 30;
+    public static final double REACH_DISTANCE_SQR = Math.pow(REACH_DISTANCE, 2);
     private static final Minecraft minecraft = Minecraft.getInstance();
     public PtdyePlus() {
         MinecraftForge.EVENT_BUS.register(this);
@@ -65,7 +69,8 @@ public class PtdyePlus
 
         @SubscribeEvent
         public static void onKeyInput(InputEvent.Key event) throws NoSuchElementException {
-            if(OpenStonecutter.KEY_TRY_PONDER.get().consumeClick()) {
+            if(KeyBinding.TRY_PONDER_KEY.consumeClick()) {
+                
                 Entity entity = minecraft.getCameraEntity();
                 assert entity != null;
                 HitResult block = entity.pick(20.0D, 0.0F, false);
@@ -94,7 +99,7 @@ public class PtdyePlus
     public static class ClientModBusEvents {
         @SubscribeEvent
         public static void onKeyRegister(RegisterKeyMappingsEvent event) {
-            event.register(OpenStonecutter.KEY_TRY_PONDER.get());
+            event.register(KeyBinding.TRY_PONDER_KEY);
         }
     }
 }

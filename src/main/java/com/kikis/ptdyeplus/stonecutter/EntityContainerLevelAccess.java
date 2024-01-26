@@ -1,4 +1,4 @@
-package com.kikis.ptdyeplus.commands.stonecutter;
+package com.kikis.ptdyeplus.stonecutter;
 
 import net.minecraft.MethodsReturnNonnullByDefault;
 import net.minecraft.core.BlockPos;

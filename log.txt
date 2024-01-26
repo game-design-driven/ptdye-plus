@@ -1,0 +1,73 @@
+[01:27:43] [INFO] example.js#17: {"key": "w"}
+[01:27:43] [INFO] example.js#17: key.forward
+[01:27:43] [INFO] example.js#17: {"key": "a"}
+[01:27:43] [INFO] example.js#17: key.left
+[01:27:43] [INFO] example.js#17: {"key": "s"}
+[01:27:43] [INFO] example.js#17: key.back
+[01:27:43] [INFO] example.js#17: {"key": "d"}
+[01:27:43] [INFO] example.js#17: key.right
+[01:27:43] [INFO] example.js#17: {"key": "null"}
+[01:27:43] [INFO] example.js#17: key.jump
+[01:27:43] [INFO] example.js#17: {"key": "null"}
+[01:27:43] [INFO] example.js#17: key.sneak
+[01:27:43] [INFO] example.js#17: {"key": "null"}
+[01:27:43] [INFO] example.js#17: key.sprint
+[01:27:43] [INFO] example.js#17: {"key": "q"}
+[01:27:43] [INFO] example.js#17: key.drop
+[01:27:43] [INFO] example.js#17: {"key": "e"}
+[01:27:43] [INFO] example.js#17: key.inventory
+[01:27:43] [INFO] example.js#17: {"key": "t"}
+[01:27:43] [INFO] example.js#17: key.chat
+[01:27:43] [INFO] example.js#17: {"key": "null"}
+[01:27:43] [INFO] example.js#17: key.playerlist
+[01:27:43] [INFO] example.js#17: {"key": "/"}
+[01:27:43] [INFO] example.js#17: key.command
+[01:27:43] [INFO] example.js#17: {"key": "p"}
+[01:27:43] [INFO] example.js#17: key.socialInteractions
+[01:27:43] [INFO] example.js#17: {"key": "null"}
+[01:27:43] [INFO] example.js#17: key.screenshot
+[01:27:43] [INFO] example.js#17: {"key": "null"}
+[01:27:43] [INFO] example.js#17: key.fullscreen
+[01:27:43] [INFO] example.js#17: {"key": "f"}
+[01:27:43] [INFO] example.js#17: key.swapOffhand
+[01:27:43] [INFO] example.js#17: {"key": "c"}
+[01:27:43] [INFO] example.js#17: key.saveToolbarActivator
+[01:27:43] [INFO] example.js#17: {"key": "x"}
+[01:27:43] [INFO] example.js#17: key.loadToolbarActivator
+[01:27:43] [INFO] example.js#17: {"key": "l"}
+[01:27:43] [INFO] example.js#17: key.advancements
+[01:27:43] [INFO] example.js#17: {"key": "1"}
+[01:27:43] [INFO] example.js#17: key.hotbar.1
+[01:27:43] [INFO] example.js#17: {"key": "2"}
+[01:27:43] [INFO] example.js#17: key.hotbar.2
+[01:27:43] [INFO] example.js#17: {"key": "3"}
+[01:27:43] [INFO] example.js#17: key.hotbar.3
+[01:27:43] [INFO] example.js#17: {"key": "4"}
+[01:27:43] [INFO] example.js#17: key.hotbar.4
+[01:27:43] [INFO] example.js#17: {"key": "5"}
+[01:27:43] [INFO] example.js#17: key.hotbar.5
+[01:27:43] [INFO] example.js#17: {"key": "6"}
+[01:27:43] [INFO] example.js#17: key.hotbar.6
+[01:27:43] [INFO] example.js#17: {"key": "7"}
+[01:27:43] [INFO] example.js#17: key.hotbar.7
+[01:27:43] [INFO] example.js#17: {"key": "8"}
+[01:27:43] [INFO] example.js#17: key.hotbar.8
+[01:27:43] [INFO] example.js#17: {"key": "9"}
+[01:27:43] [INFO] example.js#17: key.hotbar.9
+[01:27:43] [INFO] example.js#17: {"key": "b"}
+[01:27:43] [INFO] example.js#17: Try open ponder on targeted block
+[01:27:43] [INFO] example.js#17: {"key": "0"}
+[01:27:43] [INFO] example.js#17: key.jade.config
+[01:27:43] [INFO] example.js#17: {"key": "1"}
+[01:27:43] [INFO] example.js#17: key.jade.show_overlay
+[01:27:43] [INFO] example.js#17: {"key": "2"}
+[01:27:43] [INFO] example.js#17: key.jade.toggle_liquid
+[01:27:43] [INFO] example.js#17: {"key": "5"}
+[01:27:43] [INFO] example.js#17: key.jade.narrate
+[01:27:43] [INFO] example.js#17: {"key": "null"}
+[01:27:43] [INFO] example.js#17: key.jade.show_details
+[01:27:43] [INFO] example.js#17: {"key": "null"}
+[01:27:43] [INFO] example.js#17: create.keyinfo.toolmenu
+[01:27:43] [INFO] example.js#17: {"key": "null"}
+[01:27:43] [INFO] example.js#17: create.keyinfo.toolbelt
+[01:27:43] [INFO] example.js#17: {"error": "key not found"}

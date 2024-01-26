@@ -11,8 +11,5 @@
     "vanilla.EnderChestBlockEntityMixin",
     "vanilla.RandomizableContainerBlockEntityMixin",
     "wares.DeliveryTableBlockEntityMixin"
-  ],
-  "client": [
-    "vanilla.AnvilScreenMixin"
   ]
 }
