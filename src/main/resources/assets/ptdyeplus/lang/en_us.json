@@ -9,4 +9,6 @@
   "block.ptdyeplus.crate_barrel": "Crate",
   "block.ptdyeplus.anvil": "Anvil",
   "ptdyeplus.container.anvilClone": "Rename"
+  "key.ptdyeplus.try_ponder": "Try open ponder on targeted block",
+  "key.ptdyeplus.category": "Create: Prepare to Dye"
 }

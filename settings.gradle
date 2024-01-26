@@ -4,3 +4,9 @@ pluginManagement {
         maven { url = 'https://maven.minecraftforge.net/' }
     }
 }
+
+sourceControl {
+    gitRepository(URI.create("https://github.com/Technici4n/AE2Things-Forge.git")) {
+        producesModule("dev.technici4n:AE2-Things")
+    }
+}

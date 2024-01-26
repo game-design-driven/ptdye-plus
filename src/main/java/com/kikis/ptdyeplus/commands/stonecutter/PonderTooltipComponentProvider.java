@@ -1,6 +1,6 @@
-package com.kikis.ptdyeplus.integration;
+package com.kikis.ptdyeplus.commands.stonecutter;
 
-import com.kikis.ptdyeplus.stonecutter.KeyBinding;
+import com.kikis.ptdyeplus.commands.OpenStonecutter;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
@@ -18,7 +18,7 @@ public enum PonderTooltipComponentProvider implements IBlockComponentProvider {
             BlockAccessor accessor,
             IPluginConfig config
     ) {
-        String tryPonderKey = KeyBinding.TRY_PONDER_KEY.getKey().toString();
+        String tryPonderKey = OpenStonecutter.KEY_TRY_PONDER.get().getKey().toString();
         // todo: figure out how to do translation with chat colour
         tooltip.add(Component.translatable(ChatFormatting.DARK_GRAY + "Press [%s" + ChatFormatting.DARK_GRAY + "] to ponder", ChatFormatting.GRAY + tryPonderKey.substring(tryPonderKey.length() - 1)));
     }
