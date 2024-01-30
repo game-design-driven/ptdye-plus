@@ -165,7 +165,7 @@ dependencies {
     implementation fg.deobf("dev.architectury:architectury-forge:${architectury_version}")
 
     // Gson
-    implementation 'com.google.code.gson:gson:2.10.1'
+    implementation "com.google.code.gson:gson:${gson_version}"
 
     // AE2
     compileOnly "appeng:appliedenergistics2-forge:${appeng_version}"
@@ -174,7 +174,13 @@ dependencies {
     compileOnly "dev.technici4n:AE2-Things:${ae2things_version}"
     
     // Mixin
-    annotationProcessor 'org.spongepowered:mixin:0.8.5:processor'
+    annotationProcessor "org.spongepowered:mixin:${mixin_version}:processor"
+
+    // MixinExtras
+    annotationProcessor("io.github.llamalad7:mixinextras-common:${mixinExtras_version}")
+    implementation(jarJar("io.github.llamalad7:mixinextras-common:${mixinExtras_version}")) {
+        jarJar.ranged(it, "[${mixinExtras_version},)")
+    }
 }
 
 jar {

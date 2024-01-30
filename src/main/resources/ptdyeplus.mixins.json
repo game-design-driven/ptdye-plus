@@ -6,6 +6,7 @@
   "package": "com.kikis.ptdyeplus.mixin",
   "mixins": [
     "vanilla.AbstractFurnaceBlockEntityMixin",
+    "vanilla.AnvilMenuAccessor",
     "vanilla.BrewingStandBlockEntityMixin",
     "vanilla.EnderChestBlockEntityMixin",
     "vanilla.RandomizableContainerBlockEntityMixin",
