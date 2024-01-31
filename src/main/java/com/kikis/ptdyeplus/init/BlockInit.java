@@ -34,6 +34,8 @@ public class BlockInit{
     );
 
     public static <T extends Block> RegistryObject<T> register(String name, Supplier<T> supplier, Item.Properties properties) {
+        PtdyePlus.LOGGER.info("Registering block and block-item: {}", name);
+
         RegistryObject<T> block = BLOCKS.register(name, supplier);
         ItemInit.ITEMS.register(name, ()-> new BlockItem(block.get(), properties));
         return block;
