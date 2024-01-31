@@ -4,6 +4,7 @@ import com.kikis.ptdyeplus.commands.OpenStonecutter;
 import com.kikis.ptdyeplus.init.BlockEntityInit;
 import com.kikis.ptdyeplus.init.BlockInit;
 import com.kikis.ptdyeplus.init.ItemInit;
+import com.kikis.ptdyeplus.jade.PonderTooltipComponentProvider;
 import com.mojang.logging.LogUtils;
 import com.simibubi.create.foundation.gui.ScreenOpener;
 import com.simibubi.create.foundation.ponder.PonderRegistry;
@@ -60,7 +61,7 @@ public class PtdyePlus
 
         @SubscribeEvent
         public static void onKeyInput(InputEvent.Key event) throws NoSuchElementException {
-            if(OpenStonecutter.KEY_TRY_PONDER.get().consumeClick()) {
+            if(PonderTooltipComponentProvider.KEY_TRY_PONDER.get().consumeClick()) {
                 Entity entity = minecraft.getCameraEntity();
                 assert entity != null;
                 HitResult block = entity.pick(20.0D, 0.0F, false);
@@ -89,7 +90,7 @@ public class PtdyePlus
     public static class ClientModBusEvents {
         @SubscribeEvent
         public static void onKeyRegister(RegisterKeyMappingsEvent event) {
-            event.register(OpenStonecutter.KEY_TRY_PONDER.get());
+            event.register(PonderTooltipComponentProvider.KEY_TRY_PONDER.get());
         }
     }
 }

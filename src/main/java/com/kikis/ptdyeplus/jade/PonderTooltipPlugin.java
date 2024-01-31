@@ -1,4 +1,4 @@
-package com.kikis.ptdyeplus.commands.stonecutter;
+package com.kikis.ptdyeplus.jade;
 
 import com.simibubi.create.content.contraptions.actors.harvester.HarvesterBlock;
 import com.simibubi.create.content.contraptions.actors.plough.PloughBlock;

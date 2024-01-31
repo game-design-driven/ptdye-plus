@@ -23,18 +23,6 @@ import org.jetbrains.annotations.NotNull;
 import org.lwjgl.glfw.GLFW;
 
 public class OpenStonecutter {
-    public static final Lazy<KeyMapping> KEY_TRY_PONDER = Lazy.of(() -> new KeyMapping(
-            "key.ptdyeplus.try_ponder",
-            KeyConflictContext.IN_GAME,
-            InputConstants.Type.KEYSYM,
-            GLFW.GLFW_KEY_B,
-            "key.ptdyeplus.category"
-    ));
-
-    @SubscribeEvent
-    public void registerBindings(RegisterKeyMappingsEvent event) {
-        event.register(KEY_TRY_PONDER.get());
-    }
 
     public static void register(@NotNull CommandDispatcher<CommandSourceStack> dispatcher){
         dispatcher.register(Commands.literal("openStonecutter").executes(OpenStonecutter::execute));
