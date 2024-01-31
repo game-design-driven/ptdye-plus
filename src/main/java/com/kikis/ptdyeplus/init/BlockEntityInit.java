@@ -19,6 +19,8 @@ public class BlockEntityInit {
     public static final RegistryObject<BlockEntityType<CrateEntity>> CRATE = register("crate", () -> BlockEntityType.Builder.of(CrateEntity::new, BlockInit.CRATE.get()).build(null));
 
     public static <T extends BlockEntityType>RegistryObject<T> register(String name, Supplier<T> supplier) {
+        PtdyePlus.LOGGER.info("Registering block as block-entity: {}", name);
+
         RegistryObject<T> entityType = ENTITY_TYPES.register(name, supplier);
         return entityType;
     }

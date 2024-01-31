@@ -30,11 +30,12 @@ import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import org.slf4j.Logger;
 import java.util.*;
 
+@Mod(PtdyePlus.ID)
 public class PtdyePlus
 {
     public static final String ID = "ptdyeplus";
     public static final Logger LOGGER = LogUtils.getLogger();
-    private static final Minecraft minecraft = Minecraft.getInstance();
+
     public PtdyePlus()
     {
         MinecraftForge.EVENT_BUS.register(this);
@@ -58,6 +59,8 @@ public class PtdyePlus
     @SuppressWarnings("deprecation")
     @Mod.EventBusSubscriber(modid = PtdyePlus.ID, value = Dist.CLIENT)
     public static class ClientForgeEvents {
+
+        private static final Minecraft minecraft = Minecraft.getInstance();
 
         @SubscribeEvent
         public static void onKeyInput(InputEvent.Key event) throws NoSuchElementException {
