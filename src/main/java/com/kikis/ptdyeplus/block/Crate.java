@@ -67,15 +67,15 @@ public class Crate extends BaseEntityBlock {
     }
 
     @Override
-    public void onRemove(BlockState blockState, Level level, BlockPos blockPos, BlockState blockState2, boolean p_60519_) {
-        if (!blockState.is(blockState2.getBlock())) {
+    public void onRemove(BlockState blockState, Level level, BlockPos blockPos, BlockState newBlockState, boolean p_60519_) {
+        if (!blockState.is(newBlockState.getBlock())) {
             BlockEntity entity = level.getBlockEntity(blockPos);
             if (entity instanceof Container container) {
                 Containers.dropContents(level, blockPos, container);
                 level.updateNeighbourForOutputSignal(blockPos, this);
             }
 
-            super.onRemove(blockState, level, blockPos, blockState, p_60519_);
+            super.onRemove(blockState, level, blockPos, newBlockState, p_60519_);
         }
     }
 
