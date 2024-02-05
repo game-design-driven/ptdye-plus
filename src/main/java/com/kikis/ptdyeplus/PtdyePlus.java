@@ -4,7 +4,6 @@ import com.kikis.ptdyeplus.commands.Commands;
 import com.kikis.ptdyeplus.init.BlockEntityInit;
 import com.kikis.ptdyeplus.init.BlockInit;
 import com.kikis.ptdyeplus.init.ItemInit;
-import com.kikis.ptdyeplus.network.OpenGuiPacket;
 import com.kikis.ptdyeplus.jade.PonderTooltipComponentProvider;
 import com.kikis.ptdyeplus.network.PacketHandler;
 import com.mojang.logging.LogUtils;
@@ -31,48 +30,42 @@ import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.event.RegisterCommandsEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
-import net.minecraftforge.network.NetworkRegistry;
-import net.minecraftforge.network.simple.SimpleChannel;
 import org.slf4j.Logger;
+
 import java.util.*;
 
 // todo: make gradle task that sets up environment or add shortcut to readme to refresh gradle
 
 @Mod(PtdyePlus.ID)
-public class PtdyePlus
-{
+public class PtdyePlus {
     public static final String ID = "ptdyeplus";
     public static final Logger LOGGER = LogUtils.getLogger();
-//    public static SimpleChannel network;
 
-    public PtdyePlus()
-    {
-        FMLJavaModLoadingContext.get().getModEventBus().addListener(this::preInit);
+    public PtdyePlus() {
 
         MinecraftForge.EVENT_BUS.register(this);
 
         IEventBus bus = FMLJavaModLoadingContext.get().getModEventBus();
 
+        FMLJavaModLoadingContext.get().getModEventBus().addListener(this::CommonSetup);
+
+
         ItemInit.ITEMS.register(bus);
         BlockInit.BLOCKS.register(bus);
         BlockEntityInit.ENTITY_TYPES.register(bus);
+
+
     }
 
-    private void preInit(FMLCommonSetupEvent event) {
+    private void CommonSetup(FMLCommonSetupEvent event) {
         PacketHandler.register();
-//        network = NetworkRegistry.newSimpleChannel(new ResourceLocation(PtdyePlus.ID, PtdyePlus.ID), () -> "1.0", s -> true, s -> true);
-//
-//        // Client packet
-//        INSTANCE.registerMessage(0, PacketClientPlayLightSound.class, PacketClientPlayLightSound::encode, PacketClientPlayLightSound::decode, PacketClientPlayLightSound.Handler::handle);
-//
-//        network.registerMessage(0, OpenGuiPacket.class, OpenGuiPacket::toBytes, OpenGuiPacket::new, OpenGuiPacket::handle);
     }
-    
+
     @Mod.EventBusSubscriber(modid = ID, bus = Mod.EventBusSubscriber.Bus.FORGE)
     public static class ModEventListener {
 
         @SubscribeEvent
-        public static void registerCommands(RegisterCommandsEvent event){
+        public static void registerCommands(RegisterCommandsEvent event) {
             Commands.register(event.getDispatcher());
         }
     }
@@ -85,7 +78,8 @@ public class PtdyePlus
 
         @SubscribeEvent
         public static void onKeyInput(InputEvent.Key event) throws NoSuchElementException {
-            if(PonderTooltipComponentProvider.KEY_TRY_PONDER.get().consumeClick()) {
+            if (PonderTooltipComponentProvider.KEY_TRY_PONDER.get().consumeClick()) {
+
                 Entity entity = minecraft.getCameraEntity();
                 assert entity != null;
                 HitResult block = entity.pick(20.0D, 0.0F, false);

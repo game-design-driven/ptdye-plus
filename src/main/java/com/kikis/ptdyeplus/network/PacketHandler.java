@@ -6,15 +6,11 @@ import net.minecraft.server.level.ServerPlayer;
 import net.minecraftforge.common.util.FakePlayer;
 import net.minecraftforge.network.NetworkDirection;
 import net.minecraftforge.network.NetworkRegistry;
-import net.minecraftforge.network.PacketDistributor;
 import net.minecraftforge.network.simple.SimpleChannel;
-
-import java.util.function.Supplier;
-
 
 public class PacketHandler {
 
-    private static final String PROTOCOL_VERSION = "2";
+    private static final String PROTOCOL_VERSION = "1";
     public static final SimpleChannel INSTANCE = NetworkRegistry.ChannelBuilder
             .named(new ResourceLocation(PtdyePlus.ID, "main"))
             .clientAcceptedVersions(PROTOCOL_VERSION::equals)
@@ -23,11 +19,8 @@ public class PacketHandler {
             .simpleChannel();
 
     public static void register(){
-        INSTANCE.registerMessage(0, OpenGuiPacket.class, OpenGuiPacket::encode, OpenGuiPacket::decode, OpenGuiPacket.Handler::handle);
-    }
-
-    public static void send(Object msg, Supplier playerEntity){
-        INSTANCE.send(PacketDistributor.PLAYER.with(playerEntity), msg);
+        // Register packets here
+        INSTANCE.registerMessage(0, OpenInventoryGuiPacket.class, OpenInventoryGuiPacket::encode, OpenInventoryGuiPacket::decode, OpenInventoryGuiPacket.Handler::handle);
     }
 
     public static void sendTo(Object msg, ServerPlayer player) {
