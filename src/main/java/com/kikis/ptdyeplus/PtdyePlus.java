@@ -77,11 +77,6 @@ public class PtdyePlus
         }
     }
 
-    @SubscribeEvent
-    public static void Command(CommandEvent event){
-        Entity entity = event.getParseResults().getContext().getSource().getPlayer()
-    }
-
     @SuppressWarnings("deprecation")
     @Mod.EventBusSubscriber(modid = PtdyePlus.ID, value = Dist.CLIENT)
     public static class ClientForgeEvents {

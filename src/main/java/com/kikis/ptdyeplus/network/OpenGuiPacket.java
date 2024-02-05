@@ -19,7 +19,7 @@ public class OpenGuiPacket  {
     }
 
     public static void encode(OpenGuiPacket packet, FriendlyByteBuf buffer) {
-        buffer.writeFloat(packet.open);
+        buffer.writeInt(packet.open);
     }
 
     public static OpenGuiPacket decode(FriendlyByteBuf buffer) {
