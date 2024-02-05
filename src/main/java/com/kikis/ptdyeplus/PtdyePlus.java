@@ -1,10 +1,12 @@
 package com.kikis.ptdyeplus;
 
-import com.kikis.ptdyeplus.commands.OpenStonecutter;
+import com.kikis.ptdyeplus.commands.Commands;
 import com.kikis.ptdyeplus.init.BlockEntityInit;
 import com.kikis.ptdyeplus.init.BlockInit;
 import com.kikis.ptdyeplus.init.ItemInit;
+import com.kikis.ptdyeplus.network.OpenGuiPacket;
 import com.kikis.ptdyeplus.jade.PonderTooltipComponentProvider;
+import com.kikis.ptdyeplus.network.PacketHandler;
 import com.mojang.logging.LogUtils;
 import com.simibubi.create.foundation.gui.ScreenOpener;
 import com.simibubi.create.foundation.ponder.PonderRegistry;
@@ -22,22 +24,31 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.client.event.InputEvent;
 import net.minecraftforge.client.event.RegisterKeyMappingsEvent;
 import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.event.CommandEvent;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.event.RegisterCommandsEvent;
+import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
+import net.minecraftforge.network.NetworkRegistry;
+import net.minecraftforge.network.simple.SimpleChannel;
 import org.slf4j.Logger;
 import java.util.*;
+
+// todo: make gradle task that sets up environment or add shortcut to readme to refresh gradle
 
 @Mod(PtdyePlus.ID)
 public class PtdyePlus
 {
     public static final String ID = "ptdyeplus";
     public static final Logger LOGGER = LogUtils.getLogger();
+//    public static SimpleChannel network;
 
     public PtdyePlus()
     {
+        FMLJavaModLoadingContext.get().getModEventBus().addListener(this::preInit);
+
         MinecraftForge.EVENT_BUS.register(this);
 
         IEventBus bus = FMLJavaModLoadingContext.get().getModEventBus();
@@ -46,14 +57,29 @@ public class PtdyePlus
         BlockInit.BLOCKS.register(bus);
         BlockEntityInit.ENTITY_TYPES.register(bus);
     }
+
+    private void preInit(FMLCommonSetupEvent event) {
+        PacketHandler.register();
+//        network = NetworkRegistry.newSimpleChannel(new ResourceLocation(PtdyePlus.ID, PtdyePlus.ID), () -> "1.0", s -> true, s -> true);
+//
+//        // Client packet
+//        INSTANCE.registerMessage(0, PacketClientPlayLightSound.class, PacketClientPlayLightSound::encode, PacketClientPlayLightSound::decode, PacketClientPlayLightSound.Handler::handle);
+//
+//        network.registerMessage(0, OpenGuiPacket.class, OpenGuiPacket::toBytes, OpenGuiPacket::new, OpenGuiPacket::handle);
+    }
     
     @Mod.EventBusSubscriber(modid = ID, bus = Mod.EventBusSubscriber.Bus.FORGE)
     public static class ModEventListener {
 
         @SubscribeEvent
         public static void registerCommands(RegisterCommandsEvent event){
-            OpenStonecutter.register(event.getDispatcher());
+            Commands.register(event.getDispatcher());
         }
+    }
+
+    @SubscribeEvent
+    public static void Command(CommandEvent event){
+        Entity entity = event.getParseResults().getContext().getSource().getPlayer()
     }
 
     @SuppressWarnings("deprecation")
