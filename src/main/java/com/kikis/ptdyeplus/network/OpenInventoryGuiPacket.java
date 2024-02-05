@@ -32,7 +32,8 @@ public class OpenInventoryGuiPacket {
 
 
             LocalPlayer player = Minecraft.getInstance().player;
-            player.sendSystemMessage(Component.literal("goobs"));
+//            player.sendSystemMessage(Component.literal("goobs"));
+            Minecraft.getInstance().setScreen(new InventoryScreen(player));
 
 
 //            assert player != null;
