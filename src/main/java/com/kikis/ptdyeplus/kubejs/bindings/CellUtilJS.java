@@ -4,7 +4,7 @@ package com.kikis.ptdyeplus.kubejs.bindings;
 import appeng.api.client.StorageCellModels;
 import appeng.api.stacks.AEKeyType;
 import appeng.api.stacks.AEKeyTypes;
-import com.kikis.ptdyeplus.appeng.CellUtil;
+import com.kikis.ptdyeplus.kubejs.appeng.CellUtil;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;
 

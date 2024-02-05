@@ -1,4 +1,4 @@
-package com.kikis.ptdyeplus.appeng;
+package com.kikis.ptdyeplus.kubejs.appeng;
 
 import appeng.api.client.StorageCellModels;
 import appeng.api.stacks.AEKeyType;
