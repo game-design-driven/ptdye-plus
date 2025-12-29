@@ -4,7 +4,7 @@ on:
   push:
     branches:
       - main
- 
+
 env:
   pack-file: "pack.toml"
   name: "Prepare to Dye Plus"
@@ -21,11 +21,11 @@ jobs:
       - name: validate JSON and YAML files
         uses: GrantBirki/json-yaml-validate@v2.4.0
   tag_and_release:
-    permissions: 
-        contents: write
-        pull-requests: write
-        actions: write
-        deployments: write
+    permissions:
+      contents: write
+      pull-requests: write
+      actions: write
+      deployments: write
     runs-on: ubuntu-latest
     outputs:
       new_tag: ${{ steps.tag_version.outputs.new_tag }}
@@ -40,7 +40,7 @@ jobs:
           tag_prefix: ""
           custom_release_rules:
             "dev:patch:Developer experience improvments and changes,tweak:patch:Minor tweaks,feat:minor:Features,fix:patch:Fixes,revert:patch:Reverted Changes,docs:patch:Documentation and Localization,test:patch:Tests and testing related changes,mods:patch:Modlist related changes,ci:patch:Continuous Integration"
-          github_token:  ${{ secrets.GITHUB_TOKEN }}
+          github_token: ${{ secrets.GITHUB_TOKEN }}
       - name: Create a GitHub release
         uses: ncipollo/release-action@v1
         with:
@@ -49,7 +49,7 @@ jobs:
           body: ${{ steps.tag_version.outputs.changelog }}
           token: ${{ secrets.GITHUB_TOKEN }}
   update_mod_version_files:
-    needs: [tag_and_release, tests]
+    needs: [ tag_and_release, tests ]
     name: update mod version files
     runs-on: ubuntu-latest
     steps:
@@ -66,7 +66,7 @@ jobs:
           commit_message: update version to ${{ needs.tag_and_release.outputs.new_tag }}
           branch: main
   build_and_release_on_modrinth_and_curseforge:
-    needs: [update_mod_version_files, tag_and_release, tests]
+    needs: [ update_mod_version_files, tag_and_release, tests ]
     name: Build and release ${{ matrix.platform }}
     strategy:
       matrix:
@@ -95,12 +95,12 @@ jobs:
           echo 'name=ptdyeplus-${{ needs.tag_and_release.outputs.new_tag }}+${{env.loader}}-1.19.2' >> $GITHUB_OUTPUT
       - name: debug
         run: |
-            echo $JAVA_HOME
+          echo $JAVA_HOME
       - name: build
         run: |
-            gradle wrapper
-            ./gradlew jar
-            ls build/libs
+          gradle wrapper
+          ./gradlew jar
+          ls build/libs
       - name: Cache Gradle dependencies for forge
         uses: actions/cache@v3.3.2
         with:
@@ -109,9 +109,9 @@ jobs:
       - name: Upload to GitHub Releases
         if: matrix.platform == 'modrinth'
         run: |
-           gh release upload ${{ needs.tag_and_release.outputs.new_tag }} build/libs/*.jar \
-             --repo ${{ github.repository_owner }}/${{ github.event.repository.name }} \
-             --clobber
+          gh release upload ${{ needs.tag_and_release.outputs.new_tag }} build/libs/*.jar \
+            --repo ${{ github.repository_owner }}/${{ github.event.repository.name }} \
+            --clobber
         env:
           GH_TOKEN: ${{ secrets.GH_TOKEN }}
       - name: Publish to Modrinth
@@ -149,7 +149,7 @@ jobs:
           version-type: release
           name: ${{ steps.build_args.outputs.name }}
   make_pr_for_modpack:
-    needs: [build_and_release_on_modrinth_and_curseforge, tag_and_release]
+    needs: [ build_and_release_on_modrinth_and_curseforge, tag_and_release ]
     name: make pr for modpack
     runs-on: ubuntu-latest
     steps:
@@ -183,14 +183,14 @@ jobs:
       - name: Create Pull Request
         uses: peter-evans/create-pull-request@v6-rc
         with:
-            token: ${{ secrets.GH_TOKEN }}
-            commit-message: "mods: update ${{ env.name }} to ${{ needs.tag_and_release.outputs.new_tag }}"
-            title: "Updating ${{ env.name }} to ${{ needs.tag_and_release.outputs.new_tag }}"
-            body: "Changelog: ${{ needs.tag_and_release.outputs.changelog }}"
-            add-paths: |
-                "${{ env.pack-file }}"
-                "mods/*.toml"
-                "curseforge/${{ env.pack-file }}"
-                "curseforge/mods/*.toml"
-            committer: Betsy <${{ github.actor }}@users.noreply.github.com>
-            push-to-fork: jasperalani/Create-Prepare-to-Dye
+          token: ${{ secrets.GH_TOKEN }}
+          commit-message: "mods: update ${{ env.name }} to ${{ needs.tag_and_release.outputs.new_tag }}"
+          title: "Updating ${{ env.name }} to ${{ needs.tag_and_release.outputs.new_tag }}"
+          body: "Changelog: ${{ needs.tag_and_release.outputs.changelog }}"
+          add-paths: |
+            "${{ env.pack-file }}"
+            "mods/*.toml"
+            "curseforge/${{ env.pack-file }}"
+            "curseforge/mods/*.toml"
+          committer: Betsy <${{ github.actor }}@users.noreply.github.com>
+          push-to-fork: jasperalani/Create-Prepare-to-Dye
