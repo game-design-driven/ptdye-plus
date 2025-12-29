@@ -1,6 +1,0 @@
-{
-    "parent": "ptdyeplus:block/barrel/barrel",
-    "textures": {
-        "1": "ptdyeplus:block/barrel/barrel_side_5"
-    }
-}
