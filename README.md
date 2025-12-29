@@ -73,6 +73,6 @@ To use your actual Minecraft account and skin:
 4. On your next launch, check the **IntelliJ Console**. It will provide a Microsoft link to authenticated your account
 5. Once authenticated, your dev-client will permanently use your real UUID and skin
 
-You can understand more about this mod by checking out the readme for it (
-here)[https://github.com/DJtheRedstoner/DevAuth?tab=readme-ov-file#how-it-works], where it goes into detail about where
-your tokens are stored, how to revoke them, and other security nuances.
+You can understand more about this mod by checking out the readme for
+it [here](https://github.com/DJtheRedstoner/DevAuth?tab=readme-ov-file#how-it-works), where it goes into detail about
+where your tokens are stored, how to revoke them, and other security nuances.
