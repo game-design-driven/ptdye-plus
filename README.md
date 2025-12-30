@@ -19,7 +19,7 @@ weird.
 
 Key Features:
 
-- WIP
+- Ponder Blocks that the player is looking at.
 
 ### How to setup dev environment (IntelliJ)
 
