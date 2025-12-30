@@ -1,9 +1,9 @@
 package com.gdd.ptdyeplus;
 
+import com.gdd.ptdyeplus.features.Ponder;
 import com.gdd.ptdyeplus.init.BlockEntityInit;
 import com.gdd.ptdyeplus.init.BlockInit;
 import com.gdd.ptdyeplus.init.ItemInit;
-import com.gdd.ptdyeplus.jade.PonderTooltip;
 import com.mojang.logging.LogUtils;
 import net.minecraft.client.Minecraft;
 import net.minecraftforge.api.distmarker.Dist;
@@ -36,7 +36,7 @@ public class PTDyePlus {
     public static class ClientModBusEvents {
         @SubscribeEvent
         public static void onKeyRegister(RegisterKeyMappingsEvent event) {
-            event.register(PonderTooltip.ComponentProvider.KEY_PONDER.get());
+            event.register(Ponder.KEY_PONDER);
         }
     }
 
@@ -46,7 +46,7 @@ public class PTDyePlus {
 
         @SubscribeEvent
         public static void onRenderGui(RenderGuiEvent.Post event) {
-            PonderTooltip.onRenderTick(Minecraft.getInstance(), event);
+            Ponder.onRenderTick(Minecraft.getInstance(), event);
         }
     }
 }
