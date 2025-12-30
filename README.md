@@ -1,7 +1,7 @@
 # PTDye Plus
 
 ![Version](https://img.shields.io/github/v/release/jasperalani/ptdye-plus)
-![Minecraft](https://img.shields.io/modrinth/game-versions/ikDjkgLu?label=Avilable+for)
+![Minecraft](https://img.shields.io/modrinth/game-versions/ikDjkgLu?label=Available+for)
 ![Forge](https://img.shields.io/badge/Forge-47.4.10-darkblue)
 <br>
 [![Modrinth](https://img.shields.io/badge/Find%20us%20on-Modrinth-green)](https://modrinth.com/mod/ptdye-plus)
@@ -19,7 +19,10 @@ weird.
 
 Key Features:
 
-- Ponder Blocks that the player is looking at.
+- A configurable keybind (default **B**) to open a block's Ponder scene while looking at it in the world.
+- Adds a Jade tooltip to blocks with available Ponder scenes, indicating the required keybind.
+
+## For Developers
 
 ### How to setup dev environment (IntelliJ)
 
@@ -69,7 +72,7 @@ To use your actual Minecraft account and skin:
 
 1. Create a file in the project root named `local.properties` (this file is ignored by Git)
 2. Add the line: `useDevAuth=true`
-3. Sync Gradle and run `genIntelliJruns` again to apply the change
+3. Sync Gradle and run `genIntellijRuns` again to apply the change
 4. On your next launch, check the **IntelliJ Console**. It will provide a Microsoft link to authenticated your account
 5. Once authenticated, your dev-client will permanently use your real UUID and skin
 

@@ -58,19 +58,27 @@ ordering = "NONE"
 # Side this dependency is applied on - BOTH, CLIENT, or SERVER
 side = "BOTH"
 # Here's another dependency
-[[dependencies.${ mod_id }]]
+[[dependencies.${mod_id}]]
 modId = "minecraft"
 mandatory = true
 # This version range declares a minimum of the current minecraft version up to but not including the next major version
 versionRange = "${minecraft_version_range}"
 ordering = "NONE"
 side = "BOTH"
-[[dependencies.${ mod_id }]]
+
+# Mod dependencies
+[[dependencies.${mod_id}]]
 modId = "create"
 mandatory = true
 versionRange = "[6.0.8,6.1.0)"
 ordering = "NONE"
 side = "BOTH"
+[[dependencies.${mod_id}]]
+modId = "jade"
+mandatory = false
+versionRange = "[11.13.2,)"
+ordering = "AFTER"
+side = "CLIENT"
 
 # Features are specific properties of the game environment, that you may want to declare you require. This example declares
 # that your mod requires GL version 3.2 or higher. Other features will be added. They are side aware so declaring this won't
