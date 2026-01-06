@@ -12,6 +12,7 @@ indent_style = space
 indent_size = 4
 ij_java_use_single_class_imports = true # Prevents wildcard imports
 ij_java_align_multiline_parameters = true
+ij_java_keep_simple_methods_in_one_line = true
 
 [*.{json,xml,yml}]
 indent_style = space

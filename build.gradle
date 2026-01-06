@@ -204,6 +204,9 @@ dependencies {
     compileOnly(annotationProcessor("io.github.llamalad7:mixinextras-common:0.4.1"))
     implementation("io.github.llamalad7:mixinextras-forge:0.4.1")
 
+    // Create: Copycats+
+    implementation(fg.deobf("curse.maven:copycats-968398:7251864"))
+
     // KubeJS
     implementation(fg.deobf("curse.maven:kubejs-238086:5853326"))
     implementation(fg.deobf("curse.maven:architectury-api-419699:5137938"))
