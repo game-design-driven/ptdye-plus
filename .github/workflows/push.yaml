@@ -16,6 +16,7 @@ env:
   pack-file: "pack.toml"
   mod_name: "Prepare to Dye Plus"
   mod_id: "ptdyeplus"
+  mod_slug: "ptdye-plus"
   loader: "forge"
   mc_version: "1.20.1"
   target_modpack_repo: "game-design-driven/Create-Prepare-to-Dye-2"
@@ -158,18 +159,16 @@ jobs:
           go install github.com/packwiz/packwiz@latest
           sudo cp $(go env GOPATH)/bin/packwiz /usr/local/bin/
 
-      - name: Wait for CF
+      - name: Update Modrinth Modpack
         run: |
-          echo Waiting for curseforge to approve the uploaded jar
-          sleep 600 # 10 minutes
+          chmod +x ./poll_update.sh
+          ./poll_update.sh ${{ env.mod_slug }} "."
 
-      - name: Update Modpack
+
+      - name: Update Curseforge Modpack
         run: |
-          # Update the Modrinth
-          packwiz update ${{ env.mod_id }}
-
-          # Update CurseForge
-          cd curseforge && packwiz update ${{ env.mod_id }}
+          chmod +x ./poll_update.sh
+          ./poll_update.sh ${{ env.mod_slug }} "./curseforge"
 
       - name: Create Pull Request
         uses: peter-evans/create-pull-request@v6
@@ -180,9 +179,9 @@ jobs:
           branch: "update/${{ env.mod_id }}"
           add-paths: |
             "${{ env.pack-file }}"
-            "mods/${{ env.mod_id }}.toml"
+            "mods/${{ env.mod_slug }}.toml"
             "curseforge/${{ env.pack-file }}"
-            "curseforge/mods/${{ env.mod_id }}.toml"
+            "curseforge/mods/${{ env.mod_slug }}.toml"
           body: |
             ## Mod Update: ${{ env.mod_name }}
             - **New Version**: `${{ needs.tag_and_release.outputs.new_tag }}`
