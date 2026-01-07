@@ -1,29 +1,22 @@
 #!/bin/bash
 
-# Replace the version in build.gradle and mods.toml with the first argument
+# Replace the version in gradle.properties with the first argument
 # usage: ./update_version.sh 1.2
 
-unformattedVersion=$(awk -v FS="version = " 'NF>1{print $2}' build.gradle)
+newVersion=${1:-"2.0.0"}
 
-unformattedVersion="${unformattedVersion:1}"
-version="${unformattedVersion::-14}"
-
-newVersion=$1
-
-if [ $newVersion == "" ]
-then
-  newVersion="1.0.0"
+if [ ! -f gradle.properties ]; then
+  echo "Error: gradle.properties not found! Are you in the project root?"
+  exit 1
 fi
 
-if [ $newVersion != "" ]
-then
-  # Replace in build.gradle
-  find build.gradle -type f -exec sed -i "s/$version/$newVersion/g" {} \;
-  
-  # Replace in mods.toml
-  find ./src/main/resources/META-INF/mods.toml -type f -exec sed -i "s/$version/$newVersion/g" {} \;
+oldVersion=$(grep '^mod_version=' gradle.properties | cut -d'=' -f2)
 
-  echo "Replaced $version with $newVersion"
-else
-  echo "Error replacing version"
+if [ -z "oldVersion" ]; then
+  echo "Error: Could not find mod_version in gradle.properties"
+  exit 1
 fi
+
+sed -i "s/^mod_version=.*/mod_version=$newVersion/" gradle.properties
+
+echo "Successfully bumped version: $oldVersion -> $newVersion"

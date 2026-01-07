@@ -1,12 +1,7 @@
 {
   "config.jade.plugin_pondertooltip.text": "Ponder Tooltip Plugin",
-  "ptdyeplus.pondertooltip.text": "Press [%s] to ponder",
-  "ptdyeplus.no_ponder": "No ponder",
-  "ptdyeplus.stonecutter.title": "Personal Assembler",
-  "ptdyeplus.container.barrel": "Barrel",
-  "block.ptdyeplus.barrel_barrel": "Barrel",
-  "ptdyeplus.container.crate": "Crate",
-  "block.ptdyeplus.crate_barrel": "Crate",
-  "key.ptdyeplus.try_ponder": "Try open ponder on targeted block",
-  "key.ptdyeplus.category": "Create: Prepare to Dye"
+  "ptdyeplus.pondertooltip.text": "Hold [%s] to Ponder",
+  "key.ptdyeplus.ponder": "Hold to Open Ponder on Targeted Block",
+  "key.ptdyeplus.category": "Create: Prepare to Dye",
+  "entity.ptdyeplus.independent_contraption": "Independent Contraption"
 }

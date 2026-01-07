@@ -1,6 +1,0 @@
-{
-  "parent": "ptdyeplus:block/crate/crate",
-  "textures": {
-    "4": "ptdyeplus:block/crate/crate_side_2"
-  }
-}
