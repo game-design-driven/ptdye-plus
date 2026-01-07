@@ -2,6 +2,7 @@ package com.gdd.ptdyeplus.init;
 
 import com.gdd.ptdyeplus.PTDyePlus;
 import com.gdd.ptdyeplus.content.contraptions.IndependentContraptionEntity;
+import com.gdd.ptdyeplus.content.entity.AnchorEntity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.MobCategory;
 import net.minecraftforge.registries.DeferredRegister;
@@ -20,4 +21,15 @@ public class EntityInit {
                 .fireImmune()
                 .sized(1f, 1f)
                 .build("independent_contraption"));
+
+    public static final RegistryObject<EntityType<AnchorEntity>> ANCHOR =
+        ENTITY_TYPES.register("anchor",
+            () -> EntityType.Builder.of(AnchorEntity::new, MobCategory.MISC)
+                .setTrackingRange(64)
+                .setUpdateInterval(1)
+                .setShouldReceiveVelocityUpdates(true)
+                .noSummon()
+                .fireImmune()
+                .sized(0.1f, 0.1f)
+                .build("anchor"));
 }

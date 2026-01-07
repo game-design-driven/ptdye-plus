@@ -1,5 +1,6 @@
 package com.gdd.ptdyeplus;
 
+import com.gdd.ptdyeplus.client.renderer.AnchorRenderer;
 import com.gdd.ptdyeplus.features.Ponder;
 import com.gdd.ptdyeplus.init.*;
 import com.mojang.logging.LogUtils;
@@ -58,6 +59,7 @@ public class PTDyePlus {
         @SubscribeEvent
         public static void registerRenders(EntityRenderersEvent.RegisterRenderers event) {
             event.registerEntityRenderer(EntityInit.INDEPENDENT_CONTRAPTION.get(), ContraptionEntityRenderer::new);
+            event.registerEntityRenderer(EntityInit.ANCHOR.get(), AnchorRenderer::new);
         }
     }
 
