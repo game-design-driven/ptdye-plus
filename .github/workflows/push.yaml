@@ -4,28 +4,35 @@ on:
   push:
     branches:
       - main
+  workflow_dispatch:
+    inputs:
+      manual_bump:
+        description: 'Override bump (patch, minor, major)'
+        default: 'patch'
+        type: choice
+        options: [patch, minor, major]
 
 env:
   pack-file: "pack.toml"
-  name: "Prepare to Dye Plus"
-  slug: "ptdye-plus"
+  mod_name: "Prepare to Dye Plus"
+  mod_id: "ptdyeplus"
   loader: "forge"
-  mc_version: "1.19.2"
-  target_modpack_repo: "game-design-driven/Create-Prepare-to-Dye"
+  mc_version: "1.20.1"
+  target_modpack_repo: "game-design-driven/Create-Prepare-to-Dye-2"
 
 jobs:
+  # Validation
   tests:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
       - name: validate JSON and YAML files
         uses: GrantBirki/json-yaml-validate@v2.4.0
+  # Versioning
   tag_and_release:
+    needs: [ tests ]
     permissions:
       contents: write
-      pull-requests: write
-      actions: write
-      deployments: write
     runs-on: ubuntu-latest
     outputs:
       new_tag: ${{ steps.tag_version.outputs.new_tag }}
@@ -33,164 +40,145 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
       - name: Bump version and push tag
         id: tag_version
         uses: mathieudutour/github-tag-action@v6.1
         with:
           tag_prefix: ""
-          custom_release_rules:
-            "dev:patch:Developer experience improvments and changes,tweak:patch:Minor tweaks,feat:minor:Features,fix:patch:Fixes,revert:patch:Reverted Changes,docs:patch:Documentation and Localization,test:patch:Tests and testing related changes,mods:patch:Modlist related changes,ci:patch:Continuous Integration"
+          default_bump: ${{ github.event.inputs.manual_bump || 'patch' }}
+          custom_release_rules: |
+            feat:minor:Features,
+            overhaul:minor:Overhaul,
+            fix:patch:Bug fixes,
+            refactor:patch:Refactor,
+            chore:patch:Maintenance,
+            docs:patch:Documentation,
+            test:patch:Testing,
+            ci:patch:Continuous Integration,
+            revert:patch:Reverted Changes
           github_token: ${{ secrets.GITHUB_TOKEN }}
-      - name: Create a GitHub release
-        uses: ncipollo/release-action@v1
-        with:
-          tag: ${{ steps.tag_version.outputs.new_tag }}
-          name: Release ${{ steps.tag_version.outputs.new_tag }}
-          body: ${{ steps.tag_version.outputs.changelog }}
-          token: ${{ secrets.GITHUB_TOKEN }}
-  update_mod_version_files:
-    needs: [ tag_and_release, tests ]
-    name: update mod version files
+  # Build mod
+  build:
+    needs: [ tag_and_release ]
+    permissions:
+      contents: write
     runs-on: ubuntu-latest
+    outputs:
+      jar_name: ${{ steps.share_info.outputs.jar_name }}
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-      - name: Run update script
+      - uses: actions/checkout@v4
+      - name: Update version files
         run: |
-          echo Update version files to ${{ needs.tag_and_release.outputs.new_tag }}
           chmod +x ./update_version.sh
           ./update_version.sh ${{ needs.tag_and_release.outputs.new_tag }}
-      - name: Commit changes
-        uses: stefanzweifel/git-auto-commit-action@v5
-        with:
-          commit_message: update version to ${{ needs.tag_and_release.outputs.new_tag }}
-          branch: main
-  build_and_release_on_modrinth_and_curseforge:
-    needs: [ update_mod_version_files, tag_and_release, tests ]
-    name: Build and release ${{ matrix.platform }}
-    strategy:
-      matrix:
-        include:
-          - platform: modrinth
-          - platform: curseforge
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-      - name: Setup java
+
+      - name: Setup Java
         uses: actions/setup-java@v4
         with:
-          distribution: oracle
-          java-version: 17
-      - name: Update code
-        run: |
-          git pull origin main
-      - name: Gradle Build Action
-        uses: gradle/gradle-build-action@v2.11.1
+          distribution: 'temurin'
+          java-version: '17'
+
+      - name: Build with Gradle
+        uses: gradle/gradle-build-action@v3
         with:
-          gradle-version: 7.5
-      - name: Build args
-        id: build_args
-        run:
-          echo 'name=ptdyeplus-${{ needs.tag_and_release.outputs.new_tag }}+${{env.loader}}-1.19.2' >> $GITHUB_OUTPUT
-      - name: debug
+          arguments: build
+          gradle-version: 8.8
+
+      - name: Capture Jar Name
+        id: share_info
         run: |
-          echo $JAVA_HOME
-      - name: build
-        run: |
-          gradle wrapper
-          ./gradlew jar
-          ls build/libs
-      - name: Cache Gradle dependencies for forge
-        uses: actions/cache@v3.3.2
+          shopt -s extglob
+          JAR=$(ls build/libs/!(*-all|*-sources|*-javadoc).jar | xargs basename)
+          echo "jar_name=$JAR" >> $GITHUB_OUTPUT
+
+      - name: Upload Artifact
+        uses: actions/upload-artifact@v4
         with:
-          path: ~/.gradle/caches
-          key: ${{ runner.os }}-gradle-forge-${{ env.mc_version }}-${{ env.loader }}
-      - name: Upload to GitHub Releases
-        if: matrix.platform == 'modrinth'
-        run: |
-          gh release upload ${{ needs.tag_and_release.outputs.new_tag }} build/libs/*.jar \
-            --repo ${{ github.repository_owner }}/${{ github.event.repository.name }} \
-            --clobber
-        env:
-          GH_TOKEN: ${{ secrets.GH_TOKEN }}
-      - name: Publish to Modrinth
-        if: matrix.platform == 'modrinth'
-        uses: Kir-Antipov/mc-publish@v3.3.0
+          name: built-jar
+          path: build/libs/*.jar
+
+      - name: Commit version bump back to repo
+        uses: stefanzweifel/git-auto-commit-action@v5
         with:
-          modrinth-id: ${{ vars.MODRINTH_ID }}
-          modrinth-token: ${{ secrets.MODRINTH_TOKEN }}
-          loaders: ${{ env.loader}}
-          game-versions: ${{ env.mc_version}}
-          changelog: ${{ needs.tag_and_release.outputs.changelog }}
-          files: "build/libs/*.jar"
-          version: ${{ needs.tag_and_release.outputs.new_tag }}
-          version-type: beta
-          name: ${{ steps.build_args.outputs.name }}
-      - name: Update modrinth description to match readme
-        if: matrix.platform == 'modrinth'
-        run: |
-          curl -X PATCH \
-            -H "Authorization: ${{ secrets.MODRINTH_TOKEN }}" \
-            -H "Content-Type: application/json" \
-            -d "$(cat README.md | jq -R -s '{body: .}')" \
-            https://api.modrinth.com/v2/project/${{ vars.MODRINTH_ID }}
-      - name: Publish to CurseForge
-        if: matrix.platform == 'curseforge'
-        uses: Kir-Antipov/mc-publish@v3.3.0
-        with:
-          curseforge-id: ${{ vars.CF_ID }}
-          curseforge-token: ${{ secrets.CF_API_TOKEN }}
-          loaders: ${{ env.loader}}
-          game-versions: ${{ env.mc_version}}
-          changelog: ${{ needs.tag_and_release.outputs.changelog }}
-          files: "build/libs/*.jar"
-          version: ${{ needs.tag_and_release.outputs.new_tag }}
-          version-type: release
-          name: ${{ steps.build_args.outputs.name }}
-  make_pr_for_modpack:
-    needs: [ build_and_release_on_modrinth_and_curseforge, tag_and_release ]
-    name: make pr for modpack
+          commit_message: "chore(version): update to ${{ needs.tag_and_release.outputs.new_tag }} [skip ci]"
+          branch: main
+  # Publish to all platforms
+  publish:
+    needs: [ tag_and_release, build ]
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout code
+      - uses: actions/checkout@v4
+      - name: Download built jar
+        uses: actions/download-artifact@v4
+        with:
+          name: built-jar
+          path: build/libs
+
+      - name: Publish to All Platforms
+        uses: Kir-Antipov/mc-publish@v3.3.0
+        with:
+          modrinth-id: ${{  vars.MODRINTH_ID }}
+          modrinth-token: ${{ secrets.MODRINTH_TOKEN }}
+          curseforge-id: ${{ vars.CF_ID }}
+          curseforge-token: ${{ secrets.CF_API_TOKEN }}
+
+          loaders: ${{ env.loader }}
+          game-versions: ${{ env.mc_version }}
+          files: "build/libs/!(*-all|*-sources|*-javadoc).jar"
+          version: ${{ needs.tag_and_release.outputs.new_tag }}
+          changelog: ${{ needs.tag_and_release.outputs.changelog }}
+  # Modpack PR
+  make_pr_for_modpack:
+    needs: [ publish, tag_and_release ]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Modpack
         uses: actions/checkout@v4
         with:
           repository: ${{ env.target_modpack_repo }}
+          token: ${{ secrets.GH_TOKEN }}
           ref: main
+
       - name: Install packwiz
-        uses: supplypike/setup-bin@v3
-        with:
-          uri: "https://nightly.link/packwiz/packwiz/workflows/go/main/Linux%2064-bit%20x86.zip"
-          name: "packwiz"
-          version: "linux"
-      - name: Build Modpack modrinth
-        run:
-          packwiz update ${{ env.slug }}
-      - name: Wait for curseforge
         run: |
-          echo Waiting 15 minutes for curseforge to approve the uploaded jar
-      - name: Build Modpack curseforge
+          curl -L https://github.com/packwiz/packwiz/releases/latest/download/packwiz_linux_amd64.tar.gz | tar -xz
+          sudo mv packwiz /usr/local/bin/
+
+      - name: Wait for CF
         run: |
-          sleep 900
-          cd curseforge
-          packwiz update ${{ env.slug }}
-      - name: Commit changes
+          echo Waiting for curseforge to approve the uploaded jar
+          sleep 600 # 10 minutes
+
+      - name: Update Modpack
         run: |
-          git config --local user.email ${{ github.actor }}@users.noreply.github.com
-          git config --local user.name ${{ github.actor }}
-          git commit -a -m "mods: update ${{ env.name }} to ${{ needs.tag_and_release.outputs.new_tag }}"
+          # Update the Modrinth
+          packwiz update ${{ env.mod_id }}
+
+          # Update CurseForge
+          cd curseforge && packwiz update ${{ env.mod_id }}
+
       - name: Create Pull Request
-        uses: peter-evans/create-pull-request@v6-rc
+        uses: peter-evans/create-pull-request@v6
         with:
           token: ${{ secrets.GH_TOKEN }}
-          commit-message: "mods: update ${{ env.name }} to ${{ needs.tag_and_release.outputs.new_tag }}"
-          title: "Updating ${{ env.name }} to ${{ needs.tag_and_release.outputs.new_tag }}"
-          body: "Changelog: ${{ needs.tag_and_release.outputs.changelog }}"
+          commit-message: "mods: update ${{ env.mod_name }} to ${{ needs.tag_and_release.outputs.new_tag }}"
+          title: "Update ${{ env.mod_name }} to ${{ needs.tag_and_release.outputs.new_tag }}"
+          branch: "update/${{ env.mod_id }}"
           add-paths: |
             "${{ env.pack-file }}"
-            "mods/*.toml"
+            "mods/${{ env.mod_id }}.toml"
             "curseforge/${{ env.pack-file }}"
-            "curseforge/mods/*.toml"
-          committer: Betsy <${{ github.actor }}@users.noreply.github.com>
-          push-to-fork: jasperalani/Create-Prepare-to-Dye
+            "curseforge/mods/${{ env.mod_id }}.toml"
+          body: |
+            ## Mod Update: ${{ env.mod_name }}
+            - **New Version**: `${{ needs.tag_and_release.outputs.new_tag }}`
+            - **Target MC:**: `${{ env.mc_version }}`
+            - **Loader**: `${{ env.loader }}`
+
+            ## Changelog
+            ${{ needs.tag_and_release.outputs.changelog }}
+
+            ---
+            *This PR was automatically generated by the ${{ github.workflow }} pipeline.*
