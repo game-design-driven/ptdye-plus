@@ -159,16 +159,40 @@ jobs:
           go install github.com/packwiz/packwiz@latest
           sudo cp $(go env GOPATH)/bin/packwiz /usr/local/bin/
 
-      - name: Update Modrinth Modpack
+      - name: Create Polling script
         run: |
-          chmod +x ./poll_update.sh
-          ./poll_update.sh ${{ env.mod_slug }} "."
+          cat << 'EOF' > poll_update.sh
+          #!/bin/bash
+          TARGET_DIR=$1
+          MAX_RETRIES=20
+          RETRY_INTERVAL=60
 
+          echo "Attempting to update modpack using packwiz in '$TARGET_DIR'..."
+
+          if [ -n "$TARGET_DIR" ] && [ "$TARGET_DIR" != "." ]; then
+            cd "$TARGET_DIR" || exit 1
+          fi
+
+          for ((i=1; i<=MAX_RETRIES; i++)); do
+            if packwiz update "${{ env.mod_slug }}"; then
+              echo "Success: Update found and applied for ${{ env.mod_id}} (${{ env.mod_slug }})."
+              exit 0
+            fi
+
+            echo "Attempt $i/$MAX_RETRIES: No update found yet. Sleeping ${RETRY_INTERVAL}s..."
+            sleep $RETRY_INTERVAL
+          done
+
+          echo "Error: Timed out waiting for ${{ env.mod_id }} (${{ env.mod_slug }}) update after $((MAX_RETRIES * RETRY_INTERVAL / 60)) minutes."
+          exit 1
+          EOF
+          chmod +x ./poll_update.sh
+
+      - name: Update Modrinth Modpack
+        run: ./poll_update.sh "."
 
       - name: Update Curseforge Modpack
-        run: |
-          chmod +x ./poll_update.sh
-          ./poll_update.sh ${{ env.mod_slug }} "./curseforge"
+        run: ./poll_update.sh "./curseforge"
 
       - name: Create Pull Request
         uses: peter-evans/create-pull-request@v6
