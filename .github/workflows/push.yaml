@@ -1,4 +1,4 @@
-name: Push Pipeline
+name: Mod Release & Downstream Sync
 concurrency: Push-pipeline
 on:
   push:
@@ -80,11 +80,16 @@ jobs:
           distribution: 'temurin'
           java-version: '17'
 
-      - name: Build with Gradle
-        uses: gradle/gradle-build-action@v3
+      - name: Setup Gradle
+        uses: gradle/actions/setup-gradle@v4
         with:
-          arguments: build
           gradle-version: 8.8
+          cache-read-only: false
+      
+      - name: Build with Gradle
+        run: |
+          chmod +x gradlew
+          ./gradlew build
 
       - name: Capture Jar Name
         id: share_info
@@ -127,7 +132,9 @@ jobs:
           loaders: ${{ env.loader }}
           game-versions: ${{ env.mc_version }}
           files: "build/libs/!(*-all|*-sources|*-javadoc).jar"
+          name: "${{ env.mod_id }}-${{ needs.tag_and_release.outputs.new_tag }}+${{ env.loader}}-${{ env.mc_version }}"
           version: ${{ needs.tag_and_release.outputs.new_tag }}
+          version-type: release
           changelog: ${{ needs.tag_and_release.outputs.changelog }}
   # Modpack PR
   make_pr_for_modpack:
@@ -141,10 +148,15 @@ jobs:
           token: ${{ secrets.GH_TOKEN }}
           ref: main
 
+      - name: Setup Go
+        uses: actions/setup-go@v5
+        with:
+          go-version: '>=1.19'
+
       - name: Install packwiz
         run: |
-          curl -L https://github.com/packwiz/packwiz/releases/latest/download/packwiz_linux_amd64.tar.gz | tar -xz
-          sudo mv packwiz /usr/local/bin/
+          go install github.com/packwiz/packwiz@latest
+          sudo cp $(go env GOPATH)/bin/packwiz /usr/local/bin/
 
       - name: Wait for CF
         run: |
