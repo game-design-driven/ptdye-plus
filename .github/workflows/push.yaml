@@ -206,12 +206,12 @@ jobs:
           title: "Update ${{ env.mod_name }} to ${{ needs.tag_and_release.outputs.new_tag }}"
           branch: "update/${{ env.mod_id }}"
           add-paths: |
-            "index.toml"
-            "pack.toml"
-            "mods/${{ env.mod_slug }}.pw.toml"
-            "curseforge/index.toml"
-            "curseforge/pack.toml"
-            "curseforge/mods/${{ env.mod_slug }}.pw.toml"
+            index.toml
+            pack.toml
+            mods/${{ env.mod_slug }}.pw.toml
+            curseforge/index.toml
+            curseforge/pack.toml
+            curseforge/mods/${{ env.mod_slug }}.pw.toml
           body: |
             ## Mod Update: ${{ env.mod_name }}
             - **New Version**: `${{ needs.tag_and_release.outputs.new_tag }}`
