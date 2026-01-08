@@ -13,7 +13,6 @@ on:
         options: [patch, minor, major]
 
 env:
-  pack-file: "pack.toml"
   mod_name: "Prepare to Dye Plus"
   mod_id: "ptdyeplus"
   mod_slug: "ptdye-plus"
@@ -140,6 +139,7 @@ jobs:
   # Modpack PR
   make_pr_for_modpack:
     needs: [ publish, tag_and_release ]
+    if: vars.ENABLE_MODRINTH_SYNC == 'true' || vars.ENABLE_CURSEFORGE_SYNC == 'true'
     runs-on: ubuntu-latest
     steps:
       - name: Checkout Modpack
@@ -174,7 +174,9 @@ jobs:
           fi
 
           for ((i=1; i<=MAX_RETRIES; i++)); do
-            if packwiz update "${{ env.mod_slug }}"; then
+            packwiz update "${{ env.mod_slug }}"
+
+            if ! git diff --quiet .; then
               echo "Success: Update found and applied for ${{ env.mod_id}} (${{ env.mod_slug }})."
               exit 0
             fi
@@ -189,9 +191,11 @@ jobs:
           chmod +x ./poll_update.sh
 
       - name: Update Modrinth Modpack
+        if: vars.ENABLE_MODRINTH_SYNC == 'true'
         run: ./poll_update.sh "."
 
       - name: Update Curseforge Modpack
+        if: vars.ENABLE_CURSEFORGE_SYNC == 'true'
         run: ./poll_update.sh "./curseforge"
 
       - name: Create Pull Request
@@ -202,15 +206,17 @@ jobs:
           title: "Update ${{ env.mod_name }} to ${{ needs.tag_and_release.outputs.new_tag }}"
           branch: "update/${{ env.mod_id }}"
           add-paths: |
-            "${{ env.pack-file }}"
-            "mods/${{ env.mod_slug }}.toml"
-            "curseforge/${{ env.pack-file }}"
-            "curseforge/mods/${{ env.mod_slug }}.toml"
+            "index.toml"
+            "pack.toml"
+            "mods/${{ env.mod_slug }}.pw.toml"
+            "curseforge/index.toml"
+            "curseforge/pack.toml"
+            "curseforge/mods/${{ env.mod_slug }}.pw.toml"
           body: |
             ## Mod Update: ${{ env.mod_name }}
             - **New Version**: `${{ needs.tag_and_release.outputs.new_tag }}`
-            - **Target MC:**: `${{ env.mc_version }}`
-            - **Loader**: `${{ env.loader }}`
+            - **Target MC:**: `${{ env.mc_version }}`-`${{ env.loader }}`
+            - **Syncs Active**: Modrinth (${{ vars.ENABLE_MODRINTH_SYNC }}), CurseForge (${{ vars.ENABLE_CURSEFORGE_SYNC }})
 
             ## Changelog
             ${{ needs.tag_and_release.outputs.changelog }}
