@@ -37,6 +37,7 @@ public class TerritoryNetworkHandler {
         context.enqueueWork(() -> {
             TerritoryOverlay territoryOverlay = get(packet.territoryId());
             try {
+
                 territoryOverlay.updateGeometry(packet.geometries());
             } catch (Exception e) {
                 PTDyePlus.LOGGER.warn("Failed to update geometry for territory ({})", packet.territoryId(), e);
@@ -50,7 +51,7 @@ public class TerritoryNetworkHandler {
         context.enqueueWork(() -> {
             TerritoryOverlay territoryOverlay = get(packet.territoryId());
             try {
-                ShapeProperties shapeProperties = StyleConverter.toShapeProperties(packet.style());
+                ShapeProperties shapeProperties = TerritoryConverter.toShapeProperties(packet.style());
                 territoryOverlay.updateStyle(shapeProperties);
             } catch (Exception e) {
                 PTDyePlus.LOGGER.warn("Failed to update style for territory ({})", packet.territoryId(), e);
