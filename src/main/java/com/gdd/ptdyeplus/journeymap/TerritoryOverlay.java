@@ -1,6 +1,7 @@
 package com.gdd.ptdyeplus.journeymap;
 
 import com.gdd.ptdyeplus.PTDyePlus;
+import com.gdd.ptdyeplus.features.territories.client.TerritoryConverter;
 import com.gdd.ptdyeplus.features.territories.common.IslandGeometry;
 import journeymap.client.api.IClientAPI;
 import journeymap.client.api.display.PolygonOverlay;
@@ -66,7 +67,7 @@ public class TerritoryOverlay {
         overlays = new ArrayList<>();
         for (int i = 0; i < geometries.size(); i++) {
             IslandGeometry island = geometries.get(i);
-            MapPolygonWithHoles shape = island.toMapPolygon();
+            MapPolygonWithHoles shape = TerritoryConverter.toMapPolygon(island);
 
             PolygonOverlay overlay = new PolygonOverlay(
                 PTDyePlus.ID,
