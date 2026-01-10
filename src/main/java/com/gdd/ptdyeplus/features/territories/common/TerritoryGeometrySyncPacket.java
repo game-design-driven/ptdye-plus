@@ -13,9 +13,14 @@ public record TerritoryGeometrySyncPacket(UUID territoryId, List<IslandGeometry>
 
         buf.writeCollection(geometries, (buffer, island) -> {
             buffer.writeCollection(island.hull(), FriendlyByteBuf::writeBlockPos);
-            buffer.writeCollection(island.holes(), (innerBuf, hole) -> {
-                innerBuf.writeCollection(hole, FriendlyByteBuf::writeBlockPos);
-            });
+
+            boolean hasHoles = island.holes() != null;
+            buffer.writeBoolean(hasHoles);
+            if (hasHoles) {
+                buffer.writeCollection(island.holes(), (innerBuf, hole) -> {
+                    innerBuf.writeCollection(hole, FriendlyByteBuf::writeBlockPos);
+                });
+            }
         });
     }
 
@@ -24,9 +29,12 @@ public record TerritoryGeometrySyncPacket(UUID territoryId, List<IslandGeometry>
         List<IslandGeometry> geometries = buf.readCollection(ArrayList::new, buffer -> {
             List<BlockPos> hull = buffer.readCollection(ArrayList::new, FriendlyByteBuf::readBlockPos);
 
-            List<List<BlockPos>> holes = buffer.readCollection(ArrayList::new, innerBuf ->
-                innerBuf.readCollection(ArrayList::new, FriendlyByteBuf::readBlockPos)
-            );
+            List<List<BlockPos>> holes = null;
+            if (buffer.readBoolean()) {
+                holes = buffer.readCollection(ArrayList::new, innerBuf ->
+                    innerBuf.readCollection(ArrayList::new, FriendlyByteBuf::readBlockPos)
+                );
+            }
 
             return new IslandGeometry(hull, holes);
         });

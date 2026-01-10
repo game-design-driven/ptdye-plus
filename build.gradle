@@ -269,6 +269,16 @@ tasks.named('jar', Jar).configure {
 // tasks.named('publish').configure {
 //     dependsOn 'reobfJar'
 // }
+tasks.register('prepareDevJar', Copy) {
+    dependsOn 'reobfJar'
+
+    from layout.buildDirectory.dir("libs")
+    include "${mod_id}-${version}.jar"
+
+    into layout.buildDirectory.dir("reobfJar")
+    rename { "${mod_id}-dev.jar" }
+}
+build.dependsOn prepareDevJar
 
 // Example configuration to allow publishing using the maven-publish plugin
 publishing {

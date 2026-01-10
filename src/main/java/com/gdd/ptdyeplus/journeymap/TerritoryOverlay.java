@@ -28,11 +28,11 @@ public class TerritoryOverlay {
 
     private static ShapeProperties createDefaultProperties() {
         return new ShapeProperties()
-            .setFillColor(0xFF0000)
+            .setFillColor(0xFF0000) // RGB
             .setStrokeColor(0xFF0000)
-            .setStrokeOpacity(0.8f)
-            .setFillOpacity(0.6f)
-            .setStrokeWidth(1.5f);
+            .setStrokeOpacity(0.6f)
+            .setFillOpacity(0.2f)
+            .setStrokeWidth(3.0f); // Pixels (Doesn't scale with DPI)
     }
 
     public TerritoryOverlay(UUID territoryId) {
