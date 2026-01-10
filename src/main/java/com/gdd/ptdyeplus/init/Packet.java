@@ -2,6 +2,9 @@ package com.gdd.ptdyeplus.init;
 
 import com.gdd.ptdyeplus.PTDyePlus;
 import com.gdd.ptdyeplus.content.contraptions.IndependentContraptionEntity;
+import com.gdd.ptdyeplus.features.territories.client.TerritoryNetworkHandler;
+import com.gdd.ptdyeplus.features.territories.common.TerritoryGeometrySyncPacket;
+import com.gdd.ptdyeplus.features.territories.common.TerritoryStyleSyncPacket;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.network.NetworkDirection;
 import net.minecraftforge.network.NetworkRegistry;
@@ -20,12 +23,27 @@ public class Packet {
 
     private static int id() {return packetId++;}
 
+    // NOTE: KEEP PACKET ORDER! add new messages from the bottom to keep compatibility
     public static void register() {
         // Independent_Contraption's packet
         CHANNEL.messageBuilder(IndependentContraptionEntity.IndependentContraptionControlPacket.class, id(), NetworkDirection.PLAY_TO_CLIENT)
             .decoder(IndependentContraptionEntity.IndependentContraptionControlPacket::new)
             .encoder(IndependentContraptionEntity.IndependentContraptionControlPacket::write)
             .consumerMainThread(IndependentContraptionEntity.IndependentContraptionControlPacket::handle)
+            .add();
+
+        // Territory's geometry packet
+        CHANNEL.messageBuilder(TerritoryGeometrySyncPacket.class, id(), NetworkDirection.PLAY_TO_CLIENT)
+            .decoder(TerritoryGeometrySyncPacket::decode)
+            .encoder(TerritoryGeometrySyncPacket::encode)
+            .consumerMainThread(TerritoryNetworkHandler::handleGeometry)
+            .add();
+
+        // Territory's style packet
+        CHANNEL.messageBuilder(TerritoryStyleSyncPacket.class, id(), NetworkDirection.PLAY_TO_CLIENT)
+            .decoder(TerritoryStyleSyncPacket::decode)
+            .encoder(TerritoryStyleSyncPacket::encode)
+            .consumerMainThread(TerritoryNetworkHandler::handleStyle)
             .add();
     }
 }
