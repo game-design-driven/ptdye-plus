@@ -1,5 +1,6 @@
 package com.gdd.ptdyeplus.features.territories.server;
 
+import com.gdd.ptdyeplus.PTDyePlus;
 import com.gdd.ptdyeplus.features.territories.common.Edge;
 import com.gdd.ptdyeplus.features.territories.common.IslandGeometry;
 import com.gdd.ptdyeplus.features.territories.common.TerritoryGeometrySyncPacket;
@@ -9,7 +10,6 @@ import net.minecraft.world.level.ChunkPos;
 import net.minecraftforge.network.PacketDistributor;
 
 import java.util.*;
-import java.util.stream.Collectors;
 
 public class TerritoryManager {
     private final Set<ChunkPos> chunks = new HashSet<>();
@@ -97,7 +97,7 @@ public class TerritoryManager {
         List<IslandGeometry> allGeometries = new ArrayList<>();
 
         for (Set<ChunkPos> island : islands) {
-            Map<Edge, Integer> edgeCounts = new HashMap<>();
+            Set<Edge> allEdges = new HashSet<>();
             for (ChunkPos chunk : island) {
                 int minX = chunk.getMinBlockX();
                 int maxX = minX + 16; // getMaxBlockN, returns inclusive(+15), we want exclusive, so we add +16
@@ -109,17 +109,21 @@ public class TerritoryManager {
                 BlockPos se = new BlockPos(maxX, 0, maxZ);
                 BlockPos sw = new BlockPos(minX, 0, maxZ);
 
-                addEdge(edgeCounts, new Edge(nw, ne));
-                addEdge(edgeCounts, new Edge(ne, se));
-                addEdge(edgeCounts, new Edge(se, sw));
-                addEdge(edgeCounts, new Edge(sw, nw));
+                // Add edges clockwise order
+                allEdges.add(new Edge(nw, ne)); // North Edge
+                allEdges.add(new Edge(ne, se)); // East Edge
+                allEdges.add(new Edge(se, sw)); // South Edge
+                allEdges.add(new Edge(sw, nw)); // West Edge
             }
-            List<Edge> boundaryEdges = edgeCounts.entrySet().stream()
-                .filter(e -> e.getValue() == 1)
-                .map(Map.Entry::getKey)
-                .collect(Collectors.toList());
 
-            List<List<BlockPos>> loops = extractLoops(boundaryEdges);
+            List<Edge> boundaryEdges = new ArrayList<>();
+            for (Edge edge : allEdges) {
+                Edge reverse = new Edge(edge.p2(), edge.p1());
+                if (!allEdges.contains(reverse))
+                    boundaryEdges.add(edge);
+            }
+
+            List<List<BlockPos>> loops = extractDirectedLoops(boundaryEdges);
 
             loops.replaceAll(this::simplify);
 
@@ -128,83 +132,105 @@ public class TerritoryManager {
         return allGeometries;
     }
 
-    protected void addEdge(Map<Edge, Integer> counts, Edge edge) {
-        counts.put(edge, counts.getOrDefault(edge, 0) + 1);
-    }
-
-    protected List<List<BlockPos>> extractLoops(List<Edge> edges) {
+    protected List<List<BlockPos>> extractDirectedLoops(List<Edge> edges) {
         List<List<BlockPos>> loops = new ArrayList<>();
 
-        Map<BlockPos, List<Edge>> pointMap = new HashMap<>();
+        Map<BlockPos, List<Edge>> outgoing = new HashMap<>();
         for (Edge e : edges) {
-            pointMap.computeIfAbsent(e.p1(), k -> new ArrayList<>()).add(e);
-            pointMap.computeIfAbsent(e.p2(), k -> new ArrayList<>()).add(e);
+            outgoing.computeIfAbsent(e.p1(), k -> new ArrayList<>()).add(e);
         }
 
-        Set<Edge> unvisited = new HashSet<>(edges);
-        while (!unvisited.isEmpty()) {
+        while (!outgoing.isEmpty()) {
             List<BlockPos> currentLoop = new ArrayList<>();
 
-            // Pick any remaining edges to start a new loop
-            Edge startEdge = unvisited.iterator().next();
-            unvisited.remove(startEdge);
-
-            // Determine direction
-            BlockPos current = startEdge.p2();
-            currentLoop.add(startEdge.p1());
-            currentLoop.add(current);
+            // Start new loop
+            BlockPos startPos = outgoing.keySet().iterator().next();
+            BlockPos currentPos = startPos;
 
             while (true) {
-                List<Edge> neighbors = pointMap.get(current);
-                Edge nextEdge = null;
+                currentLoop.add(currentPos);
 
-                // Find the neighbor that is still unvisited
-                if (neighbors != null) {
-                    for (Edge e : neighbors) {
-                        if (unvisited.contains(e)) {
-                            nextEdge = e;
-                            break;
-                        }
-                    }
-                }
-
-                if (nextEdge == null)
-                    break; // Loop is closed
-
-                unvisited.remove(nextEdge);
-
-                // Move to next point
-                current = (nextEdge.p1().equals(current)) ? nextEdge.p2() : nextEdge.p1();
-                currentLoop.add(current);
+                List<Edge> available = outgoing.get(currentPos);
+                if (available == null || available.isEmpty())
+                    break;
+                Edge edge = available.remove(0);
+                if (available.isEmpty())
+                    outgoing.remove(currentPos);
+                currentPos = edge.p2();
+                if (currentPos.equals(startPos))
+                    break;
             }
-            if (currentLoop.get(0).equals(currentLoop.get(currentLoop.size() - 1))) {
-                currentLoop.remove(currentLoop.size() - 1);
+            if (currentLoop.size() >= 3) {
+                loops.add(currentLoop);
+            } else {
+                PTDyePlus.LOGGER.warn("Created a loop that ");
             }
-            loops.add(currentLoop);
         }
         return loops;
     }
 
     private IslandGeometry classifyHullAndHoles(List<List<BlockPos>> loops) {
+        loops.removeIf(l -> l.size() < 3);
+
         if (loops.isEmpty())
             return new IslandGeometry(Collections.emptyList(), null);
 
+        // Format all loops (CCW Winding + SouthEast starting point)
+        List<List<BlockPos>> readyLoops = new ArrayList<>();
+        for (List<BlockPos> loop : loops) {
+            readyLoops.add(formatLoop(loop));
+        }
+
         // The loop with the latest area is the outer hull
-        List<BlockPos> hull = loops.get(0);
+        List<BlockPos> hull = readyLoops.get(0);
         double maxArea = getPolygonArea(hull);
-        for (int i = 1; i < loops.size(); i++) {
-            double area = getPolygonArea(loops.get(i));
+        for (int i = 1; i < readyLoops.size(); i++) {
+            double area = getPolygonArea(readyLoops.get(i));
             if (area > maxArea) {
                 maxArea = area;
-                hull = loops.get(i);
+                hull = readyLoops.get(i);
             }
         }
 
         // Everything else is a hole
-        List<List<BlockPos>> holes = new ArrayList<>(loops);
+        List<List<BlockPos>> holes = new ArrayList<>(readyLoops);
         holes.remove(hull);
 
         return new IslandGeometry(hull, holes.isEmpty() ? null : holes);
+    }
+
+    // We want to format all loops to be CCW, and the first index must be LOWER-LEFT(SouthEast) point in the sequence
+    private List<BlockPos> formatLoop(List<BlockPos> points) {
+        if (points.size() < 3)
+            return points; // This is an invalid loop
+
+        List<BlockPos> result = new ArrayList<>(points);
+
+        // CCW
+        double windingSum = 0;
+        for (int i = 0; i < points.size(); i++) {
+            BlockPos p1 = points.get(i);
+            BlockPos p2 = points.get((i + 1) % points.size());
+            windingSum += (double) (p2.getX() - p1.getX()) * (p2.getZ() + p1.getZ());
+        }
+        if (windingSum > 0)
+            Collections.reverse(result);
+
+        // Find SouthEast point (Lower-Left in JM terms)
+        int seIndex = 0;
+        BlockPos sePos = points.get(seIndex);
+        for (int i = 0; i < points.size(); i++) {
+            BlockPos p = result.get(i);
+            if (p.getZ() > sePos.getZ() || (p.getZ() == sePos.getZ() && p.getX() > sePos.getX())) {
+                sePos = p;
+                seIndex = i;
+            }
+        }
+        if (seIndex != 0) { // Rotate so SouthEast is at index 0
+            Collections.rotate(result, -seIndex);
+        }
+
+        return result;
     }
 
     // Shoelace area
@@ -239,5 +265,4 @@ public class TerritoryManager {
         }
         return simplified;
     }
-
 }

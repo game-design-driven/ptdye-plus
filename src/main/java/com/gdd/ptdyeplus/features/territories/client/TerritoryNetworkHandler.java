@@ -37,7 +37,6 @@ public class TerritoryNetworkHandler {
         context.enqueueWork(() -> {
             TerritoryOverlay territoryOverlay = get(packet.territoryId());
             try {
-
                 territoryOverlay.updateGeometry(packet.geometries());
             } catch (Exception e) {
                 PTDyePlus.LOGGER.warn("Failed to update geometry for territory ({})", packet.territoryId(), e);
