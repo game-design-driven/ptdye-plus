@@ -1,7 +1,7 @@
 package com.gdd.ptdyeplus.journeymap;
 
 import com.gdd.ptdyeplus.PTDyePlus;
-import com.gdd.ptdyeplus.features.territories.client.TerritoryNetworkHandler;
+import com.gdd.ptdyeplus.features.territories.client.TerritoryClientHandler;
 import journeymap.client.api.ClientPlugin;
 import journeymap.client.api.IClientAPI;
 import journeymap.client.api.IClientPlugin;
@@ -20,7 +20,7 @@ public class JMBridge implements IClientPlugin {
     public void initialize(IClientAPI jmAPI) {
         this.jmAPI = jmAPI;
 
-        TerritoryNetworkHandler.onAPIReady(jmAPI);
+        TerritoryClientHandler.onAPIReady(jmAPI);
     }
 
     @Override
