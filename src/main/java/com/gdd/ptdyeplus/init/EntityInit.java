@@ -2,6 +2,7 @@ package com.gdd.ptdyeplus.init;
 
 import com.gdd.ptdyeplus.PTDyePlus;
 import com.gdd.ptdyeplus.content.contraptions.IndependentContraptionEntity;
+import com.gdd.ptdyeplus.content.contraptions.WinchContraptionEntity;
 import com.gdd.ptdyeplus.content.entity.AnchorEntity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.MobCategory;
@@ -15,7 +16,7 @@ public class EntityInit {
     public static final RegistryObject<EntityType<IndependentContraptionEntity>> INDEPENDENT_CONTRAPTION =
         ENTITY_TYPES.register("independent_contraption",
             () -> EntityType.Builder.of(IndependentContraptionEntity::new, MobCategory.MISC)
-                .setTrackingRange(20) // Distance the player sees it? 20 is the default create defined
+                .setTrackingRange(20)
                 .setUpdateInterval(40)
                 .setShouldReceiveVelocityUpdates(true)
                 .fireImmune()
@@ -32,4 +33,14 @@ public class EntityInit {
                 .fireImmune()
                 .sized(0.1f, 0.1f)
                 .build("anchor"));
+
+    public static final RegistryObject<EntityType<WinchContraptionEntity>> WINCH_CONTRAPTION =
+        ENTITY_TYPES.register("winch_contraption",
+            () -> EntityType.Builder.of(WinchContraptionEntity::new, MobCategory.MISC)
+                .setTrackingRange(20)
+                .setUpdateInterval(40)
+                .setShouldReceiveVelocityUpdates(true)
+                .fireImmune()
+                .sized(1f, 1f)
+                .build("winch_contraption"));
 }

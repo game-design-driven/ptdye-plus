@@ -2,6 +2,7 @@ package com.gdd.ptdyeplus.init;
 
 import com.gdd.ptdyeplus.PTDyePlus;
 import com.gdd.ptdyeplus.content.contraptions.IndependentContraptionEntity;
+import com.gdd.ptdyeplus.content.contraptions.WinchContraptionEntity;
 import com.gdd.ptdyeplus.features.territories.client.TerritoryNetworkHandler;
 import com.gdd.ptdyeplus.features.territories.common.TerritoryGeometrySyncPacket;
 import com.gdd.ptdyeplus.features.territories.common.TerritoryStyleSyncPacket;
@@ -44,6 +45,13 @@ public class Packet {
             .decoder(TerritoryStyleSyncPacket::decode)
             .encoder(TerritoryStyleSyncPacket::encode)
             .consumerMainThread(TerritoryNetworkHandler::handleStyle)
+            .add();
+
+        // Winch_Contraption's packet
+        CHANNEL.messageBuilder(WinchContraptionEntity.WinchContraptionControlPacket.class, id(), NetworkDirection.PLAY_TO_CLIENT)
+            .decoder(WinchContraptionEntity.WinchContraptionControlPacket::new)
+            .encoder(WinchContraptionEntity.WinchContraptionControlPacket::write)
+            .consumerMainThread(WinchContraptionEntity.WinchContraptionControlPacket::handle)
             .add();
     }
 }
