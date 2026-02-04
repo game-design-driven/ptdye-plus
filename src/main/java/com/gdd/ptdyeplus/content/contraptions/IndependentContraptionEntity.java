@@ -192,6 +192,8 @@ public class IndependentContraptionEntity extends AbstractContraptionEntity {
 //            );
 //        }
 
+        tickActors();
+
         boolean isMoving = rotationSpeed.lengthSqr() > 1e-6;
         if (!isMoving) {
             rotationDelta = Vec3.ZERO;
