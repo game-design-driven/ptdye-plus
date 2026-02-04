@@ -3,5 +3,8 @@
   "ptdyeplus.pondertooltip.text": "Hold [%s] to Ponder",
   "key.ptdyeplus.ponder": "Hold to Open Ponder on Targeted Block",
   "key.ptdyeplus.category": "Create: Prepare to Dye",
-  "entity.ptdyeplus.independent_contraption": "Independent Contraption"
+  "block.ptdyeplus.thruster": "Thruster",
+  "block.ptdyeplus.invisible_seat": "Invisible Seat",
+  "entity.ptdyeplus.independent_contraption": "Independent Contraption",
+  "entity.ptdyeplus.winch_contraption": "Winch Contraption"
 }

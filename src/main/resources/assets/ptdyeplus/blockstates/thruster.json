@@ -1,0 +1,19 @@
+{
+  "variants": {
+    "facing=north": {
+      "model": "ptdyeplus:block/thruster/thruster"
+    },
+    "facing=south": {
+      "model": "ptdyeplus:block/thruster/thruster",
+      "y": 180
+    },
+    "facing=east": {
+      "model": "ptdyeplus:block/thruster/thruster",
+      "y": 90
+    },
+    "facing=west": {
+      "model": "ptdyeplus:block/thruster/thruster",
+      "y": 270
+    }
+  }
+}
